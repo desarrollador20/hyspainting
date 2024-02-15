@@ -1,0 +1,59 @@
+.table-responsive {
+    overflow-x: auto;
+}
+
+@media (max-width: 768px) {
+    .table-responsive {
+        display: block;
+    }
+}
+
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+table {
+    width: 100%;
+}
+
+table,
+th,
+td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+
+th,
+td {
+    padding: 10px;
+    text-align: center;
+}
+
+@media (max-width: 600px) {
+    .table-container {
+        flex-direction: column;
+    }
+
+    .table-container .right-table {
+        margin-top: 10px;
+    }
+}
+
+/* Estilos CSS para dispositivos grandes (más de 600px de ancho) */
+@media (min-width: 601px) {
+    .table-container {
+        display: flex;
+    }
+
+    .table-container .left-table,
+    .table-container .right-table {
+        flex: 1;
+        margin: 10px;
+    }
+}
+
+#buscar {
+    display: none;
+}

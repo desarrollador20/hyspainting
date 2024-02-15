@@ -1,0 +1,74 @@
+.lista .repositorio { display: none; }
+.lista .cabecera th { text-align: center; padding-left: 0 !important; }
+.lista .ws {width: 28px!important;}
+.lista .wm {width: 168px;}
+.lista .wm2 {width: 68px!important;}
+.lista .wl {width: 100px;}
+.lista .wxl {width: 160px!important;}
+.lista select.wxl {width: 135px;}
+.yui-ac-content{width: 160px!important;}
+.lista .wxxl{width: 190px!important;}
+
+.lista .tipo { display: none; }
+.lista tr[data-tipo=establecimiento] .tipo.tipo-establecimiento { display: initial; }
+.lista tr[data-tipo=local] .tipo.tipo-local { display: initial; }
+.lista tr[data-tipo=nivel] .tipo.tipo-nivel { display: initial; }
+.lista tr[data-tipo=plaza] .tipo.tipo-plaza { display: initial; }
+.lista tr[data-tipo=categoria] .tipo.tipo-categoria { display: initial; }
+.lista tr[data-tipo=grupo] .tipo.tipo-grupo { display: initial; }
+.lista tr[data-tipo=medio] .tipo.tipo-medio { display: initial; }
+.lista tr[data-tipo=cliente] .tipo.tipo-cliente { display: initial; }
+.lista tr[data-tipo=permitido] .tipo.tipo-tipo { display: initial; }
+
+.lista tr[data-que=permitido] .regla-que2,
+.lista tr[data-que=no_permitido] .regla-que2,
+.lista tr[data-que=restringir_a_grupo] .regla-que2 { display: none; }
+.lista tr[data-que=limite_boletas_diarias] .regla_cuando0 { display: none; }
+.lista tr[data-que=limite_boletas_diarias] .regla_cuando1 { display: none; }
+.lista tr[data-que=limite_boletas_diarias] .regla_cuando2 { display: none; }
+.lista tr[data-que=limite_boletas_diarias] .cuando { display: none; }
+
+
+.repositorio input {
+    border: none;
+    outline: none;
+    /* Esto quita el contorno de foco al hacer clic en el campo */
+}
+
+.schedulerDiv {
+    background-color: #FFFFFF;
+    color: #534D64;
+    padding: 20px 20px 10px 20px;
+    border: 1px solid #E6E6E6;
+    border-radius: 4px;
+    text-align: left;
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.lista2 .repositorio2 {
+    display: none;
+}
+  .responsive-image {
+max-width: 50%;
+height: auto;
+display: block;
+margin: 0 auto;
+}
+
+.names {
+display: flex;
+flex-direction: column;
+align-items: center;
+text-align: center;
+margin-top: 10px;
+}
+
+.names p {
+margin: 5px 0;
+}
+
+
+#clone{
+    display: none;
+}

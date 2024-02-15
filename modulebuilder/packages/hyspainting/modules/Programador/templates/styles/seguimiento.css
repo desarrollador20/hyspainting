@@ -1,0 +1,6 @@
+table.seguimiento td { padding-right: 5px; vertical-align: middle; }
+table.seguimiento td.fecha { min-width: 140px; }
+table.seguimiento td.sorteo { white-space: nowrap; } 
+table.seguimiento tr td.sorteo { color: #333333; }
+table.seguimiento tr.ganador td.sorteo { color: #008000; }
+table.seguimiento tr.testigo td.sorteo { color: #A38A1A; }
