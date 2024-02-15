@@ -44,7 +44,7 @@
 $app_list_strings['moduleList']['HS_Facturador'] = 'Facturador Usuarios';
 $app_list_strings['moduleList']['HS_Facturador_proyectos'] = 'Facturador Proyectos';
 $app_list_strings['moduleList']['HS_inventarios'] = 'Inventarios';
-$app_list_strings['moduleList']['HS_Prestamos'] = NULL;
+$app_list_strings['moduleList']['HS_Prestamos'] = 'Prestamos';
 $app_list_strings['moduleList']['HS_Programador'] = 'Programador';
 $app_list_strings['moduleList']['HS_Registro_horas'] = 'Registro Horas';
 $app_list_strings['moduleList']['HS_Reportes_personalizados'] = 'Reportes personalizados';
