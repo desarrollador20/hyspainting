@@ -34,7 +34,7 @@
 							
 			</td>
 			<td>
-				{html_options name=puesto_$rand options=$cargos selected=$regla.puesto}
+				{html_options name="puesto_`$rand`" options=$cargos selected=$regla.puesto}
 
 			</td>
 			<td>

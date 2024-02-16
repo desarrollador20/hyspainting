@@ -9,7 +9,8 @@ array (
       array (
         'buttons' => 
         array (
-        ),
+            0 => 'EDIT',
+          ),
       ),
       'maxColumns' => '2',
       'widths' => 

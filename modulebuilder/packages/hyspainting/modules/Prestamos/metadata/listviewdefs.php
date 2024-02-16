@@ -2,13 +2,6 @@
 $module_name = 'HS_Prestamos';
 $listViewDefs [$module_name] = 
 array (
-  'NAME' => 
-  array (
-    'width' => '32%',
-    'label' => 'LBL_NAME',
-    'default' => true,
-    'link' => true,
-  ),
   'TRABAJADOR' => 
   array (
     'type' => 'relate',
@@ -21,7 +14,7 @@ array (
   ),
   'FECHA' => 
   array (
-    'type' => 'datetimecombo',
+    'type' => 'date',
     'label' => 'LBL_FECHA',
     'width' => '10%',
     'default' => true,
@@ -41,6 +34,28 @@ array (
     'studio' => 'visible',
     'label' => 'LBL_ESTADO',
     'width' => '10%',
+  ),
+  'NAME' => 
+  array (
+    'width' => '32%',
+    'label' => 'LBL_NAME',
+    'default' => false,
+    'link' => true,
+  ),
+  'DATE_ENTERED' => 
+  array (
+    'type' => 'datetime',
+    'label' => 'LBL_DATE_ENTERED',
+    'width' => '10%',
+    'default' => false,
+  ),
+  'DESCRIPTION' => 
+  array (
+    'type' => 'text',
+    'label' => 'LBL_DESCRIPTION',
+    'sortable' => false,
+    'width' => '10%',
+    'default' => false,
   ),
   'ASSIGNED_USER_NAME' => 
   array (

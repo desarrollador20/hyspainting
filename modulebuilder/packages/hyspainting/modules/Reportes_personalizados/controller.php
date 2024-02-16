@@ -110,11 +110,14 @@ class HS_Reportes_personalizadosController extends SugarController
                 case 25:
                     $fechaAnterior = date('Y-m-d', strtotime("{$year}-{$mesSeleccionado}-01 -1 month"));
                     $fechaInicial = date('Y-m-d', strtotime("{$fechaAnterior} +24 days"));
-                    $fechaFinal = date('Y-m-d', strtotime($fechaInicial . ' +15 days'));
+                    $fechaFinal = date('Y-m-d', strtotime($fechaInicial . ' +16 days'));
                     if ($corteSeleccionado == 2) {
 
                         $fechaInicial = $fechaFinal;
                         $fechaFinal = date('Y-m-d', strtotime("{$year}-{$mesSeleccionado}-24"));
+                    }
+                    if ($corteSeleccionado == 1) {
+                        $fechaFinal = date('Y-m-d', strtotime($fechaFinal . ' -1 days'));
                     }
                     break;
             }

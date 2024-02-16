@@ -320,6 +320,7 @@
             // Verifica si el valor pagado es mayor al valor del contrato
             if (valor_pagado > valor_contrato) {
                 alert('El valor pagado no puede ser mayor al valor del contrato');
+                return;
             }
             puestos1[tipo_cobro] = {
                 regular_hours: 1,

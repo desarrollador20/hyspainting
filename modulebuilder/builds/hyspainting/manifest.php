@@ -63,9 +63,9 @@ $manifest = array (
   'icon' => '',
   'is_uninstallable' => true,
   'name' => 'hyspainting',
-  'published_date' => '2024-02-14 00:52:34',
+  'published_date' => '2024-02-15 23:12:19',
   'type' => 'module',
-  'version' => 1707871955,
+  'version' => 1708038739,
   'remove_tables' => 'prompt',
 );
 
@@ -100,7 +100,7 @@ $installdefs = array (
       'module' => 'HS_Prestamos',
       'class' => 'HS_Prestamos',
       'path' => 'modules/HS_Prestamos/HS_Prestamos.php',
-      'tab' => 1,
+      'tab' => true,
     ),
     4 => 
     array (

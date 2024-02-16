@@ -38,14 +38,16 @@
  * display the words "Powered by SugarCRM" and "Supercharged by SuiteCRM".
  */
 $config = array (
-  'assignable' => 1,
-  'security_groups' => 1,
-  'acl' => 1,
-  'has_tab' => 1,
-  'studio' => 1,
-  'audit' => 1,
+  'assignable' => true,
+  'security_groups' => true,
+  'acl' => true,
+  'has_tab' => true,
+  'studio' => true,
+  'audit' => true,
   'templates' => 
   array (
     'basic' => 1,
   ),
+  'label' => 'Prestamos',
+  'importable' => false,
 );

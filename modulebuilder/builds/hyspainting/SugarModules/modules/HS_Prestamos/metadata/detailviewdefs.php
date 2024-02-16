@@ -66,12 +66,7 @@ array (
             'name' => 'valor',
             'label' => 'LBL_VALOR',
           ),
-          1 => 
-          array (
-            'name' => 'estado',
-            'studio' => 'visible',
-            'label' => 'LBL_ESTADO',
-          ),
+          1 => '',
         ),
         2 => 
         array (
