@@ -47,10 +47,10 @@ global $mod_strings, $app_strings, $sugar_config;
 if(ACLController::checkAccess('HS_Reportes_personalizados', 'edit', true)){
     $module_menu[]=array('index.php?module=HS_Reportes_personalizados&action=setreportesusuarios', $mod_strings['LNK_NEW_RECORD'], 'Add', 'HS_Reportes_personalizados');
 }
-if(ACLController::checkAccess('HS_Reportes_personalizados', 'list', true)){
+/*if(ACLController::checkAccess('HS_Reportes_personalizados', 'list', true)){
     $module_menu[]=array('index.php?module=HS_Reportes_personalizados&action=index&return_module=HS_Reportes_personalizados&return_action=DetailView', $mod_strings['LNK_LIST'],'View', 'HS_Reportes_personalizados');
 }
 if(ACLController::checkAccess('HS_Reportes_personalizados', 'import', true)){
     $module_menu[]=array('index.php?module=Import&action=Step1&import_module=HS_Reportes_personalizados&return_module=HS_Reportes_personalizados&return_action=index', $app_strings['LBL_IMPORT'], 'Import', 'HS_Reportes_personalizados');
-}
+}*/
 

@@ -330,6 +330,11 @@ $dictionary['Project']['fields']['jjwg_maps_lng_c']['inline_edit']=1;
 
  
 
+ // created: 2024-02-16 16:48:22
+$dictionary['Project']['fields']['pagos_extra_c']['required']=false;
+
+ 
+
  // created: 2023-09-19 16:25:53
 $dictionary['Project']['fields']['status']['inline_edit']=true;
 $dictionary['Project']['fields']['status']['options']='hs_estado_proyecto';

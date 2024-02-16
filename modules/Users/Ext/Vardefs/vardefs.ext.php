@@ -113,6 +113,13 @@ $dictionary['User']['fields']['valor_hora_c'] = array(
 );
 
 
+ // created: 2024-02-16 16:47:32
+$dictionary['User']['fields']['first_name']['required']=true;
+$dictionary['User']['fields']['first_name']['inline_edit']=true;
+$dictionary['User']['fields']['first_name']['merge_filter']='disabled';
+
+ 
+
  // created: 2024-02-15 16:34:36
 $dictionary['User']['fields']['testing_c']['inline_edit']='1';
 $dictionary['User']['fields']['testing_c']['labelValue']='testing';
