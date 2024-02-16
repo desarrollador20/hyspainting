@@ -78,8 +78,8 @@ $template = BeanFactory::getBean('AOS_PDF_Templates', $_REQUEST['templateID']);
 if (!$template) {
     sugar_die("Invalid Template");
 }
-
-$file_name = str_replace(" ", "_", $template->name) . ".pdf";
+$fecha_hora_actual = date('Y-m-d');
+$file_name = str_replace(" ", "_", $template->name .'_'.$fecha_hora_actual) . ".pdf";
 
 $pdfConfig = [
     'mode' => 'en',

@@ -30,8 +30,9 @@
 {/literal}
 {literal}
 <script>
-    const trabajador = $('#trabajadores option:selected').text();
+    var trabajador = $('#trabajadores option:selected').text();
     function setPDF() {
+         trabajador = $('#trabajadores option:selected').text();
         const pdf = new jsPDF();
         const theme = {
             tableLineColor: 200,
@@ -70,6 +71,7 @@
     function setExcel(action) {
         const wb = XLSX.utils.book_new();
         const tablesData = [];
+        trabajador = $('#trabajadores option:selected').text();
 
         // Iterar sobre cada tabla y agregar sus datos a la matriz tablesData
         document.querySelectorAll('.table-container table, #resumen').forEach((table, index) => {
@@ -111,8 +113,26 @@
     function getname() {
         const desde = $("#desde").val();
         const hasta = $("#hasta").val();
-        const name = trabajador + ' (' + desde + '-' + hasta + ')';
+        const name = 'Reporte Usuario' + trabajador + ' (' + desde + '-' + hasta + ')';
         return name;
+    }
+
+    function getNameProyecto() {
+        var proyectoName = $('#proyecto option:selected').text();
+        var anio  = $('#year').val();
+        var mes   = $('#mes option:selected').text();
+        var corte = $('#corte').val();
+        const desde = $("#desde").val();
+        const hasta = $("#hasta").val();
+        
+        var corteValidador =  $("#tipo_busqueda").prop("checked");
+        if(corteValidador){
+           var nameDocuemnto =  `Reporte proyecto ${proyectoName}_${anio}_${mes}_${corte}` ;
+        }else{
+           var nameDocuemnto =  `Reporte proyecto ${proyectoName} (${desde}-${hasta})` ;
+        }
+       
+        return nameDocuemnto;
     }
 
 
@@ -273,7 +293,7 @@
 
         XLSX.utils.book_append_sheet(wb, wsFinal, trabajador);
         // Descargar el archivo Excel
-        XLSX.writeFile(wb, getname() + '.xlsx');
+        XLSX.writeFile(wb, getNameProyecto() + '.xlsx');
 
 
     }
@@ -300,7 +320,7 @@
         }
 
         // Guardar el documento PDF como un archivo descargable
-        pdf.save('exportacion_pdf.pdf');
+        pdf.save(getNameProyecto() + '.pdf');
     }
 
 
