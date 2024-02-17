@@ -174,7 +174,7 @@ foreach ($recordIds as $recordId) {
 
 
 
-    $printable = str_replace("\n", "<br />", $converted);
+    $printable = $converted;
 
     try {
         $note = BeanFactory::newBean('Notes');
