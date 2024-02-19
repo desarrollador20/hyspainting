@@ -323,8 +323,26 @@
         pdf.save(getNameProyecto() + '.pdf');
     }
 
+    // Función para validar las propiedades
+    function validarPropiedades(obj) {
+        var objetoFallido = "";
+        for (var key in obj) {
+            if (obj.hasOwnProperty(key)) {
+                var item = obj[key];
+                // Verificar si las propiedades unitPrice o regular_hours están indefinidas o vacías
+                if (typeof item.unitPrice === 'undefined' || item.unitPrice === '' || 
+                    typeof item.regular_hours === 'undefined' || item.regular_hours === 0) {
+                    objetoFallido = "La propiedad unitPrice o regular_hours está indefinida o vacía en el elemento:"+ key;
+                    console.log("La propiedad unitPrice o regular_hours está indefinida o vacía en el elemento:", key);
+                }
+            }
+        }
 
-    function setFacturadorProyectos() {
+        return objetoFallido;
+    }
+
+
+    async function  setFacturadorProyectos() {
         const id_proyecto = $("#proyecto").val();
         const tipo_cobro = $("#tipo_cobro").val();
         const valor_contrato = parseFloat($("#valor_contrato").val());
@@ -349,7 +367,7 @@
 
 
         }
-        SUGAR.ajaxUI.showLoadingPanel();
+        
         const query = {
             action: 'setFacturadorProyectos',
             id_proyecto: id_proyecto,
@@ -362,6 +380,17 @@
             info: puestos,
             tipo_cobro: tipo_cobro
         }
+      
+        const validarObjeto = await validarPropiedades(query.info[0]);
+
+        if(validarObjeto != ""){
+            console.log(query);
+            alert(validarObjeto);
+            return false;
+        }
+
+        SUGAR.ajaxUI.showLoadingPanel();
+ 
         $.ajax({
             type: "POST",
             url: 'index.php?entryPoint=GetMethodsReportesEntryPoint',
