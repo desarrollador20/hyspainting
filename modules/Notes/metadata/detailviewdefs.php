@@ -75,14 +75,6 @@ array (
           0 => 'assigned_user_name',
           1 => '',
         ),
-        5 => 
-        array (
-          0 => 
-          array (
-            'name' => 'hs_facturador_proyectos_notes_name',
-            'label' => 'LBL_HS_FACTURADOR_PROYECTOS_NOTES_FROM_HS_FACTURADOR_PROYECTOS_TITLE',
-          ),
-        ),
       ),
       'LBL_PANEL_ASSIGNMENT' => 
       array (
