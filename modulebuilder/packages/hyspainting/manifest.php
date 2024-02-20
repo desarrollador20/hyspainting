@@ -63,9 +63,9 @@ $manifest = array (
   'icon' => '',
   'is_uninstallable' => true,
   'name' => 'hyspainting',
-  'published_date' => '2024-02-19 17:07:59',
+  'published_date' => '2024-02-20 20:43:39',
   'type' => 'module',
-  'version' => 1708362482,
+  'version' => 1708461821,
   'remove_tables' => 'prompt',
 );
 

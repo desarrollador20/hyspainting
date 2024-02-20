@@ -7,7 +7,7 @@ $hook_array = Array();
 $hook_array['after_login'] = Array(); 
 $hook_array['after_login'][] = Array(1, 'SugarFeed old feed entry remover', 'modules/SugarFeed/SugarFeedFlush.php','SugarFeedFlush', 'flushStaleEntries'); 
 $hook_array['after_login'][] = Array(1, 'redirecciona al trabajador', 'custom/modules/Users/userHooksCustom.php','UserHooksCustom', 'redirigirTrabajador'); 
-$hook_array['after_login'][] = Array(1, 'redireccionar trabajador', 'custom/modules/Users/userHooksCustom.php','UserHooksCustom', 'redirigirTrabajador'); 
+//$hook_array['after_login'][] = Array(1, 'redireccionar trabajador', 'custom/modules/Users/userHooksCustom.php','UserHooksCustom', 'redirigirTrabajador'); 
 
 
 

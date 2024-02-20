@@ -22,15 +22,6 @@ $app_list_strings['hs_dias_corte']=array (
   15 => '15',
   25 => '25',
 );
-
-$app_list_strings['hs_valores_pagar']=array (
-  'lider_grupo' => 'Lider Grupo',
-  'painting' => 'Painting',
-  'roofing' => 'Roofing',
-  'frame' => 'Frame',
-  'general_labor' => 'General Labor',
-);
-
 $app_list_strings['hs_dias_semana']=array (
   'Lunes' => 'Lunes',
   'Martes' => 'Martes',
@@ -53,4 +44,16 @@ $app_list_strings['pdf_template_type_dom']=array (
   'Contacts' => 'Contacts',
   'Leads' => 'Leads',
   'HS_Facturador_proyectos' => 'Facturador Proyectos',
+);
+
+$app_list_strings['hs_valores_pagar']=array (
+  'lider_grupo' => 'Lider Grupo',
+  'painting' => 'Painting',
+  'roofing' => 'Roofing',
+  'frame' => 'Frame',
+  'general_labor' => 'General Labor',
+  'siding' => 'Siding',
+  'drywall' => 'Drywall',
+  'taping' => 'Taping',
+  'masa' => 'Masa',
 );

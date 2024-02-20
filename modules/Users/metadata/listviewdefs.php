@@ -21,13 +21,6 @@ array (
     'link' => true,
     'default' => true,
   ),
-  'TITLE' => 
-  array (
-    'width' => '15%',
-    'label' => 'LBL_TITLE',
-    'link' => true,
-    'default' => true,
-  ),
   'FECHA_INGRESO_C' => 
   array (
     'type' => 'date',
@@ -71,13 +64,6 @@ array (
     'sortable' => false,
     'label' => 'LBL_LIST_EMAIL',
     'link' => true,
-    'default' => true,
-  ),
-  'IS_ADMIN' => 
-  array (
-    'width' => '10%',
-    'label' => 'LBL_ADMIN',
-    'link' => false,
     'default' => true,
   ),
   'PHONE_WORK' => 

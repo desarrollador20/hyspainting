@@ -42,14 +42,16 @@
     die('Not A Valid Entry Point');
 }
 
-global $mod_strings, $app_strings, $sugar_config;
- 
+global $current_user, $mod_strings, $app_strings, $sugar_config;
+
 if(ACLController::checkAccess('HS_Registro_horas', 'edit', true)){
     $module_menu[]=array('index.php?module=HS_Registro_horas&action=setregistrohoras', $mod_strings['LNK_NEW_RECORD'], 'Add', 'HS_Registro_horas');
 }
-if(ACLController::checkAccess('HS_Registro_horas', 'list', true)){
+if($current_user->is_admin == 1){
+ if(ACLController::checkAccess('HS_Registro_horas', 'list', true)){
     $module_menu[]=array('index.php?module=HS_Registro_horas&action=index&return_module=HS_Registro_horas&return_action=DetailView', $mod_strings['LNK_LIST'],'View', 'HS_Registro_horas');
+  }
 }
-if(ACLController::checkAccess('HS_Registro_horas', 'import', true)){
+/*if(ACLController::checkAccess('HS_Registro_horas', 'import', true)){
     $module_menu[]=array('index.php?module=Import&action=Step1&import_module=HS_Registro_horas&return_module=HS_Registro_horas&return_action=index', $app_strings['LBL_IMPORT'], 'Import', 'HS_Registro_horas');
-}
+}*/

@@ -9,8 +9,8 @@ array (
       array (
         'buttons' => 
         array (
-            0 => 'EDIT',
-          ),
+          0 => 'EDIT',
+        ),
       ),
       'maxColumns' => '2',
       'widths' => 
@@ -55,16 +55,17 @@ array (
           0 => 'status',
           1 => 
           array (
-            'name' => 'UserType',
-            'customCode' => '{$USER_TYPE_READONLY}',
+            'name' => 'fecha_ingreso_c',
+            'label' => 'LBL_FECHA_INGRESO',
           ),
         ),
         2 => 
         array (
           0 => 
           array (
-            'name' => 'fecha_ingreso_c',
-            'label' => 'LBL_FECHA_INGRESO',
+            'name' => 'puesto_c',
+            'studio' => 'visible',
+            'label' => 'LBL_PUESTO',
           ),
           1 => 
           array (
@@ -79,7 +80,7 @@ array (
             'name' => 'apto_c',
             'label' => 'LBL_APTO',
           ),
-          1 => '',
+          1 => 'phone_mobile',
         ),
         4 => 
         array (
@@ -99,13 +100,8 @@ array (
         ),
         2 => 
         array (
-          0 => 
-          array (
-            'name' => 'puesto_c',
-            'studio' => 'visible',
-            'label' => 'LBL_PUESTO',
-          ),
-          1 => 'phone_mobile',
+          0 => '',
+          1 => '',
         ),
         3 => 
         array (
