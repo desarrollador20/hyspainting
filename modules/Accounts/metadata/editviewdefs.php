@@ -80,6 +80,14 @@ array (
             'label' => 'LBL_JJWG_MAPS_ADDRESS',
           ),
         ),
+        2 => 
+        array (
+          0 => 
+          array (
+            'name' => 'description',
+            'label' => 'LBL_DESCRIPTION',
+          ),
+        ),
       ),
     ),
   ),

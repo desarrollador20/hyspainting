@@ -1,0 +1,3 @@
+<?php
+// created: 2024-02-22 20:15:37
+$mod_strings['LBL_AM_TASKTEMPLATES_AM_PROJECTTEMPLATES_FROM_AM_TASKTEMPLATES_TITLE'] = 'Plantillas de tareas';

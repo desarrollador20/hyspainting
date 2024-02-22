@@ -2,7 +2,7 @@
 $dictionary['Project']['fields']['account_id_c'] = array (
   'inline_edit' => 1,
   'required' => true,
-  'source' => 'custom_fields',
+  //'source' => 'fields',
   'name' => 'account_id_c',
   'vname' => 'LBL_COMPANIA_ACCOUNT_ID',
   'type' => 'id',

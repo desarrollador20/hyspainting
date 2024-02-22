@@ -54,7 +54,7 @@
       <input type="hidden" name="module" value="HS_Registro_horas">
       <input type="hidden" name="action" value="saveregistrohoras">
       <input id="btnnextb" class="button" type="button" name="button" value="Registrar >>" onclick="siguiente()">
-      <input id="btncancelb" class="button" type="button" name="button" value="Limpiar >>" onclick="cancelar()">
+    <!--  <input id="btncancelb" class="button" type="button" name="button" value="Limpiar >>" onclick="cancelar()"> -->
     </div>
   </form>
 </div>
@@ -183,7 +183,7 @@
     registroId.setAttribute('name', `registro_id_${rand}`);
     fecha.setAttribute('name', `fecha_${rand}`);
     dia.setAttribute('name', `dia_${rand}`);
-    span.setAttribute('id', `span-${rand}`)
+    span.setAttribute('id', `${rand}`)
     selectProyecto.disabled = false;
     regla.value = rand;
     registroId.value = 0;
@@ -242,9 +242,9 @@
       var regla = document.querySelector('select[name="project_' + valor + '"]');
       var hora = document.querySelector('input[name="horas_trabajo_' + valor + '"]').value;
       if (regla.value != '') {
-        if (regla.value == '' && hora == '' || hora == 0) {
+        if (!document.getElementById(valor).classList.contains("ocultar-span") && (hora == '' || hora == 0)) {
           console.log(regla.value);
-          alert("No deben haber volares de horas vacias o con valores 0");
+          alert("No deben haber valares de horas vacias o con valores 0");
           return;
         }
       } else {

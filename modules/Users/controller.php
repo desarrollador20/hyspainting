@@ -19,6 +19,7 @@ class CustomUsersController extends UsersController
         if(!$this->bean->is_admin && $constrolleruserHooksCustom[0] === NULL) {
             // ID del rol al que deseas agregar al usuario
             $role_id_trabajador = 'c0159c9d-a6a5-0b37-085d-65230ba01145';
+                                  
             // Obtener el bean del rol
             $role = BeanFactory::getBean('ACLRoles', $role_id);
 

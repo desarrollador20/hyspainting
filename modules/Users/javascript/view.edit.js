@@ -8,6 +8,11 @@ $(document).ready(function() {
 
 
     addToValidate('EditView', 'Users0emailAddress0', 'varchar', true, '');
+    setTimeout(function(){
+      document.getElementsByName("timezone")[0].value = "America/New_York";
+    }, 2000);
+    
+
   });
 
 
