@@ -64,4 +64,5 @@ $app_list_strings['hs_valores_pagar']=array (
   'drywall' => 'Drywall',
   'taping' => 'Taping',
   'masa' => 'Masa',
+  'builder' => 'Builder',
 );

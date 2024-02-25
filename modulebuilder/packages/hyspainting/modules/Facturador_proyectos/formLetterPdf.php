@@ -180,7 +180,7 @@ foreach ($recordIds as $recordId) {
         $note = BeanFactory::newBean('Notes');
         $note->modified_user_id = $current_user->id;
         $note->created_by = $current_user->id;
-        $note->name = 'Factura N° '.$bean->num_factura;
+        $note->name = 'Factura_'.$bean->num_factura.".pdf";
         $note->parent_type = $bean->module_dir;
         $note->parent_id = $bean->id;
         $note->file_mime_type = 'application/pdf';
