@@ -154,30 +154,35 @@ class HS_Reportes_personalizadosController extends SugarController
         $rs = $GLOBALS['db']->query($query);
         $usuarios = [];
         while ($row = $GLOBALS['db']->fetchByAssoc($rs)) {
-            $usuario = $row['usuario_id'];
-            $fecha = $row['fecha'];
-            $horas_trabajo = $row['horas_trabajo'];
-            $horas_viaje = $row['horas_viaje'];
-            $pago_extra = $row['pago_extra'];
-            $valor_hora = $row['valor_hora'];
-            $puesto = $row['puesto'];
-            $name = $row['nombres'] . ' ' . $row['apellidos'];
-            if (!isset($usuarios[$usuario])) {
-                // Si no existe, inicializar con un arreglo vacío
-                $usuarios[$usuario] = [];
-            }
-            // Agregar valores al arreglo del usuario
-            $usuarios[$usuario][] = [
-                'usuario' => $usuario,
-                'fecha' => $fecha,
-                'horas_trabajo' => $horas_trabajo,
-                'horas_viaje' => $horas_viaje,
-                'pago_extra' => $pago_extra,
-                'valor_hora' => $valor_hora,
-                'name' => $name,
-                'puesto' => $puesto
+            if (
+                isset($row['horas_trabajo']) && trim($row['horas_trabajo']) !== '' && $row['horas_trabajo'] > 0 &&
+                isset($row['horas_viaje'])
+            ) {
+                    $usuario = $row['usuario_id'];
+                    $fecha = $row['fecha'];
+                    $horas_trabajo = $row['horas_trabajo'];
+                    $horas_viaje = $row['horas_viaje'];
+                    $pago_extra = $row['pago_extra'];
+                    $valor_hora = $row['valor_hora'];
+                    $puesto = $row['puesto'];
+                    $name = $row['nombres'] . ' ' . $row['apellidos'];
+                    if (!isset($usuarios[$usuario])) {
+                        // Si no existe, inicializar con un arreglo vacío
+                        $usuarios[$usuario] = [];
+                    }
+                    // Agregar valores al arreglo del usuario
+                    $usuarios[$usuario][] = [
+                        'usuario' => $usuario,
+                        'fecha' => $fecha,
+                        'horas_trabajo' => $horas_trabajo,
+                        'horas_viaje' => $horas_viaje,
+                        'pago_extra' => $pago_extra,
+                        'valor_hora' => $valor_hora,
+                        'name' => $name,
+                        'puesto' => $puesto
 
-            ];
+                    ];
+           }
         }
 
         return [$usuarios, $desde, $hasta];
