@@ -154,30 +154,35 @@ class HS_Reportes_personalizadosController extends SugarController
         $rs = $GLOBALS['db']->query($query);
         $usuarios = [];
         while ($row = $GLOBALS['db']->fetchByAssoc($rs)) {
-            $usuario = $row['usuario_id'];
-            $fecha = $row['fecha'];
-            $horas_trabajo = $row['horas_trabajo'];
-            $horas_viaje = $row['horas_viaje'];
-            $pago_extra = $row['pago_extra'];
-            $valor_hora = $row['valor_hora'];
-            $puesto = $row['puesto'];
-            $name = $row['nombres'] . ' ' . $row['apellidos'];
-            if (!isset($usuarios[$usuario])) {
-                // Si no existe, inicializar con un arreglo vacío
-                $usuarios[$usuario] = [];
-            }
-            // Agregar valores al arreglo del usuario
-            $usuarios[$usuario][] = [
-                'usuario' => $usuario,
-                'fecha' => $fecha,
-                'horas_trabajo' => $horas_trabajo,
-                'horas_viaje' => $horas_viaje,
-                'pago_extra' => $pago_extra,
-                'valor_hora' => $valor_hora,
-                'name' => $name,
-                'puesto' => $puesto
+            if (
+                isset($row['horas_trabajo']) && trim($row['horas_trabajo']) !== '' && $row['horas_trabajo'] > 0 &&
+                isset($row['horas_viaje'])
+            ) {
+                    $usuario = $row['usuario_id'];
+                    $fecha = $row['fecha'];
+                    $horas_trabajo = $row['horas_trabajo'];
+                    $horas_viaje = $row['horas_viaje'];
+                    $pago_extra = $row['pago_extra'];
+                    $valor_hora = $row['valor_hora'];
+                    $puesto = $row['puesto'];
+                    $name = $row['nombres'] . ' ' . $row['apellidos'];
+                    if (!isset($usuarios[$usuario])) {
+                        // Si no existe, inicializar con un arreglo vacío
+                        $usuarios[$usuario] = [];
+                    }
+                    // Agregar valores al arreglo del usuario
+                    $usuarios[$usuario][] = [
+                        'usuario' => $usuario,
+                        'fecha' => $fecha,
+                        'horas_trabajo' => $horas_trabajo,
+                        'horas_viaje' => $horas_viaje,
+                        'pago_extra' => $pago_extra,
+                        'valor_hora' => $valor_hora,
+                        'name' => $name,
+                        'puesto' => $puesto
 
-            ];
+                    ];
+           }
         }
 
         return [$usuarios, $desde, $hasta];
@@ -300,8 +305,9 @@ class HS_Reportes_personalizadosController extends SugarController
         $totalesAux=$this->setTable($data['info'], $data['tipo_cobro']);
        // $facturadorP->data = $this->setTable($data['info'], $data['tipo_cobro']);
         //$facturadorP->valor_total = $data['valor_pagado'];
-        $facturadorP->data = $totalesAux[0];
-        $facturadorP->valor_total = $totalesAux[1];
+        $facturadorP->valor_total = $totalesAux[0];
+        $facturadorP->encabezado=json_encode($data['info']);
+        $facturadorP->num_factura = $this->getConsecutivo();
         $proyecto->save();
         $facturadorP->save();
         //return $data['info'];
@@ -364,16 +370,7 @@ class HS_Reportes_personalizadosController extends SugarController
     {
         // $valor = json_decode($valores);
         $lista = $GLOBALS['app_list_strings']['hs_valores_pagar'];
-        $data = '<table style="width: 700px; padding-top: 7px;">
-        <tbody>
-        
-            <tr>
-                <td style="width: 10%;"><strong><span style="font-size: small; color: #5e5b95;">QTY</span></strong></td>
-                <td style="width: 60%;"><strong><span style="font-size: small; color: #5e5b95;">DESCRIPTION</span></strong></td>
-                <td style="width: 15%;"><strong><span style="font-size: small; color: #5e5b95;">UNIT PRICE</span></strong></td>
-                <td style="width: 15%;"><strong><span style="font-size: small; color: #5e5b95;">LINE TOTAL</span></strong></td>
-            </tr>';
-
+       
         $lineTotalOt = 0;
         $total = 0;
         $tax = 0;
@@ -385,67 +382,21 @@ class HS_Reportes_personalizadosController extends SugarController
                     $otHours = $values['overtime_hours'];
                     // Calcular el total de la línea
                     $lineTotalReg = $unitPrice * $regHours;
-                    $data .= '    <tr>
-                <td style="font-size: small;">' . $regHours . ' </td>
-                <td style="font-size: small;"> Regular Hours ' . $lista[$puesto] . ' Week Ending ' . $values['fecha'] . '</td>
-                <td style="font-size: small;">$' . $values['unitPrice'] . '</td>
-                <td style="font-size: small;">$ ' . $lineTotalReg . ' </td>';
-
                     if ($otHours > 0) {
                         $lineTotalOt = ($unitPrice * $otHours) * 1.5;
-                        $data .= '    <tr>
-                    <td style="font-size: small;">' . $otHours . ' </td>
-                    <td style="font-size: small;"> Overtime Hours ' . $lista[$puesto] . ' Week Ending ' . $values['fecha'] . '</td>
-                    <td style="font-size: small;">$' . $values['unitPrice'] . '</td>
-                    <td style="font-size: small;">$ ' . $lineTotalOt . ' </td>';
                     }
                     $unido = $lineTotalReg + $lineTotalOt;
-                    $data .= '</tr>';
                     $total += $unido;
-                    $lineTotalOt=0;
-                    $lineTotalReg=0;
-
+                    $lineTotalOt = 0;
+                    $lineTotalReg = 0;
                 }
             }
-        }else{
-           $unit= $valores[0][$tipoCobro]['unitPrice'];
-           $value=$valores[0][$tipoCobro]['regular_hours'];
-            $data .= '<tr>
-            <td style="font-size: small;">' . $value. ' </td>
-            <td style="font-size: small;">$hs_facturador_proyectos_description</td>
-            <td style="font-size: small;">$' . $unit. '</td>
-            <td style="font-size: small;">$ ' . $unit . ' </td></tr>';
-            for($i=0; $i<10; $i++){
-                $data .= '<tr>
-                <td style="font-size: small;"> </td>
-                <td style="font-size: small;"></td>
-                <td style="font-size: small;"></td>
-                <td style="font-size: small;"> </td></tr>';
-
-            }
-
-            $total=$unit;
-
+        } else {
+            $unit = $valores[0][$tipoCobro]['unitPrice'];
+            $value = $valores[0][$tipoCobro]['regular_hours'];
+            $total = $unit;
         }
-        $data .= '<tr>
-            <td colspan="2"></td>
-            <td><strong><span style="font-size: small; color: #5e5b95;">SUBTOTAL</span></strong></td>
-            <td style="font-size: small;">' . $total . ' </td>
-        </tr>
-        <tr>
-            <td colspan="2"></td>
-            <td><strong><span style="font-size: small; color: #5e5b95;">SALEX TAX</span></strong></td>
-            <td style="font-size: small;">' . $tax . ' </td>
-        </tr>
-        <tr>
-            <td colspan="2"></td>
-            <td><strong><span style="font-size: small; color: #5e5b95;">TOTAL</span></strong></td>
-            <td style="font-size: small;">' . $total . ' </td>
-        </tr>
-        </tbody>
-        </table>';
-
-       return [$data,$total];
+        return [$total];
     }
 
 

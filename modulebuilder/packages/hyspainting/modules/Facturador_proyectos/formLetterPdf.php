@@ -1,44 +1,4 @@
 <?php
-
-/**
- *
- * SugarCRM Community Edition is a customer relationship management program developed by
- * SugarCRM, Inc. Copyright (C) 2004-2013 SugarCRM Inc.
- *
- * SuiteCRM is an extension to SugarCRM Community Edition developed by SalesAgility Ltd.
- * Copyright (C) 2011 - 2018 SalesAgility Ltd.
- *
- * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Affero General Public License version 3 as published by the
- * Free Software Foundation with the addition of the following permission added
- * to Section 15 as permitted in Section 7(a): FOR ANY PART OF THE COVERED WORK
- * IN WHICH THE COPYRIGHT IS OWNED BY SUGARCRM, SUGARCRM DISCLAIMS THE WARRANTY
- * OF NON INFRINGEMENT OF THIRD PARTY RIGHTS.
- *
- * This program is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Affero General Public License for more
- * details.
- *
- * You should have received a copy of the GNU Affero General Public License along with
- * this program; if not, see http://www.gnu.org/licenses or write to the Free
- * Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
- * 02110-1301 USA.
- *
- * You can contact SugarCRM, Inc. headquarters at 10050 North Wolfe Road,
- * SW2-130, Cupertino, CA 95014, USA. or at email address contact@sugarcrm.com.
- *
- * The interactive user interfaces in modified source and object code versions
- * of this program must display Appropriate Legal Notices, as required under
- * Section 5 of the GNU Affero General Public License version 3.
- *
- * In accordance with Section 7(b) of the GNU Affero General Public License version 3,
- * these Appropriate Legal Notices must retain the display of the "Powered by
- * SugarCRM" logo and "Supercharged by SuiteCRM" logo. If the display of the logos is not
- * reasonably feasible for technical reasons, the Appropriate Legal Notices must
- * display the words "Powered by SugarCRM" and "Supercharged by SuiteCRM".
- */
-
 use SuiteCRM\PDF\Exceptions\PDFException;
 use SuiteCRM\PDF\PDFWrapper;
 
@@ -78,6 +38,7 @@ $template = BeanFactory::getBean('AOS_PDF_Templates', $_REQUEST['templateID']);
 if (!$template) {
     sugar_die("Invalid Template");
 }
+
 $fecha_hora_actual = date('Y-m-d');
 $file_name = str_replace(" ", "_", $template->name .'_'.$fecha_hora_actual) . ".pdf";
 
@@ -119,8 +80,8 @@ foreach ($recordIds as $recordId) {
     }
 
     $search = array(
-        '@<script[^>]*?>.*?</script>@si',        // Strip out javascript
-        '@<[\/\!]*?[^<>]*?>@si',        // Strip out HTML tags
+        '@<script[^>]?>.?</script>@si',        // Strip out javascript
+        '@<[\/\!]?[^<>]?>@si',        // Strip out HTML tags
         '@([\r\n])[\s]+@',            // Strip out white space
         '@&(quot|#34);@i',            // Replace HTML entities
         '@&(amp|#38);@i',
@@ -143,17 +104,44 @@ foreach ($recordIds as $recordId) {
         chr(161),
         '<br>'
     );
-    $data = $bean->data;
-    $bean->data = $data;
 
+    $aux = json_decode(html_entity_decode($bean->encabezado), true);
+
+    $proyecto = BeanFactory::getBean('Project', $bean->project_id_c);
+    $desde  = DateTime::createFromFormat('m/d/Y', $bean->desde)->format('Y-m-d');
+    $result = [];
+    if ($bean->fecha_corte == 25) {
+        $query = "SELECT
+        encabezado,
+        valor_total
+        FROM
+        hs_facturador_proyectos
+        WHERE
+        deleted = 0
+        AND project_id_c = '{$bean->project_id_c}'
+        AND fecha_corte = 25
+        AND hasta = DATE_SUB('{$desde}', INTERVAL 1 DAY)";
+        $rs = $GLOBALS['db']->query($query);
+        while ($row = $GLOBALS['db']->fetchByAssoc($rs)) {
+            $result[] = [
+                'data' => json_decode(html_entity_decode($row['encabezado']), true),
+                'total' => $row['valor_total']
+            ];
+        }
+    }
+    $subtotal=$aux;
+    if (count($result) > 0) {
+        $subtotal = array_merge_recursive($result[0]['data'], $aux);
+    }
+    $data = getTabla($subtotal, $proyecto->tipo_cobro_c);
+    $bean->data = $data[0];
+    //$bean->valor_total = $data[1];
     $bean->save();
-
     $bean->fecha_creacion = date("F j, Y", strtotime($bean->fecha_creacion));
 
+
     $bean->data = preg_replace($search, $replace, $bean->data);
-
     $bean->data = templateParser::parse_template($bean->data, $object_arr);
-
     $text = preg_replace($search, $replace, $template->description);
 
 
@@ -174,17 +162,18 @@ foreach ($recordIds as $recordId) {
 
 
 
-    $printable = $converted;
+    $printable = str_replace("\n", "<br />", $converted);
+    $printable=$converted;
 
     try {
         $note = BeanFactory::newBean('Notes');
         $note->modified_user_id = $current_user->id;
         $note->created_by = $current_user->id;
-        $note->name = 'Factura_'.$bean->num_factura.".pdf";
+        $note->name = 'Factura N° ' . $bean->num_factura;
         $note->parent_type = $bean->module_dir;
         $note->parent_id = $bean->id;
         $note->file_mime_type = 'application/pdf';
-        $note->filename = 'Factura N° '.$bean->num_factura;
+        $note->filename = 'Factura_'.$bean->num_factura.".pdf";
         if ($bean->module_dir == 'Contacts') {
             $note->contact_id = $bean->id;
             $note->parent_type = 'Accounts';
@@ -210,7 +199,6 @@ foreach ($recordIds as $recordId) {
         rename($sugar_config['upload_dir'] . 'nfile.pdf', $sugar_config['upload_dir'] . $note->id);
         $bean->load_relationship('hs_facturador_proyectos_notes');
         $bean->hs_facturador_proyectos_notes->add($note);
-        
     } catch (PDFException $e) {
         LoggerManager::getLogger()->warn('PDFException: ' . $e->getMessage());
     }
@@ -228,3 +216,90 @@ $emalCustom->sendEmailWithAttachments($dest,$mensaje,$asunto, $adjuntos);
 */
 
 $pdf->outputPDF($file_name, 'D');
+
+
+function getTabla($valores, $tipoCobro)
+{
+    // $valor = json_decode($valores);
+    $lista = $GLOBALS['app_list_strings']['hs_valores_pagar'];
+    $data = '<table style="width: 700px; padding-top: 7px;">
+        <tbody>
+        
+            <tr>
+                <td style="width: 10%;"><strong><span style="font-size: small; color: #5e5b95;">QTY</span></strong></td>
+                <td style="width: 60%;"><strong><span style="font-size: small; color: #5e5b95;">DESCRIPTION</span></strong></td>
+                <td style="width: 15%;"><strong><span style="font-size: small; color: #5e5b95;">UNIT PRICE</span></strong></td>
+                <td style="width: 15%;"><strong><span style="font-size: small; color: #5e5b95;">LINE TOTAL</span></strong></td>
+            </tr>';
+
+    $lineTotalOt = 0;
+    $total = 0;
+    $tax = 0;
+    if ($tipoCobro === 'por_horas') {
+        foreach ($valores  as $item) {
+            foreach ($item as $puesto => $values) {
+                $regHours = $values['regular_hours'];
+                $unitPrice = $values['unitPrice'];
+                $otHours = $values['overtime_hours'];
+                // Calcular el total de la línea
+                $lineTotalReg = $unitPrice * $regHours;
+                $data .= '    <tr>
+                <td style="font-size: small;">' . $regHours . '</td>
+                <td style="font-size: small;"> Regular Hours ' . $lista[$puesto] . ' Week Ending ' . $values['fecha'] . '</td>
+                <td style="font-size: small;">$' . $values['unitPrice'] . '</td>
+                <td style="font-size: small;">$ ' . $lineTotalReg . ' </td>';
+
+                if ($otHours > 0) {
+                    $lineTotalOt = ($unitPrice * $otHours) * 1.5;
+                    $data .= '    <tr>
+                    <td style="font-size: small;">' . $otHours . ' </td>
+                    <td style="font-size: small;"> Overtime Hours ' . $lista[$puesto] . ' Week Ending ' . $values['fecha'] . '</td>
+                    <td style="font-size: small;">$' . $values['unitPrice'] . '</td>
+                    <td style="font-size: small;">$ ' . $lineTotalOt . ' </td>';
+                }
+                $unido = $lineTotalReg + $lineTotalOt;
+                $data .= '</tr>';
+                $total += $unido;
+                $lineTotalOt = 0;
+                $lineTotalReg = 0;
+            }
+        }
+    } else {
+        $unit = $valores[0][$tipoCobro]['unitPrice'];
+        $value = $valores[0][$tipoCobro]['regular_hours'];
+        $data .= '<tr>
+            <td style="font-size: small;">' . $value . '</td>
+            <td style="font-size: small;">$hs_facturador_proyectos_description</td>
+            <td style="font-size: small;">$' . $unit . '</td>
+            <td style="font-size: small;">$ ' . $unit . '</td></tr>';
+        for ($i = 0; $i < 10; $i++) {
+            $data .= '<tr>
+                <td style="font-size: small;"></td>
+                <td style="font-size: small;"></td>
+                <td style="font-size: small;"></td>
+                <td style="font-size: small;"></td></tr>';
+        }
+
+        $total = $unit;
+    }
+    $data .= '<tr>
+            <td colspan="2"></td>
+            <td><strong><span style="font-size: small; color: #5e5b95;">SUBTOTAL</span></strong></td>
+            <td style="font-size: small;">' . $total . '</td>
+        </tr>
+        <tr>
+            <td colspan="2"></td>
+            <td><strong><span style="font-size: small; color: #5e5b95;">SALEX TAX</span></strong></td>
+            <td style="font-size: small;">' . $tax . '</td>
+        </tr>
+        <tr>
+            <td colspan="2"></td>
+            <td><strong><span style="font-size: small; color: #5e5b95;">TOTAL</span></strong></td>
+            <td style="font-size: small;">' . $total . '</td>
+        </tr>
+        </tbody>
+        </table>';
+
+
+    return [$data,$total];
+}

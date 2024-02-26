@@ -92,4 +92,5 @@ $mod_strings = array (
   'LBL_NOTAS' => 'Notas',
   'LBL_CUSTOMER_ID' => 'customer id',
   'LBL_SALESPERSON' => 'Salesperson',
+  'LBL_ECABEZADO' => 'Encabezado',
 );

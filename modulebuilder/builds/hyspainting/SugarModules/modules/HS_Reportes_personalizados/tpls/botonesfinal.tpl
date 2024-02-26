@@ -298,10 +298,10 @@
 
     }
 
-    function setPDFProyect() {
+   function setPDFProyect() {
 
-        // Crear un nuevo objeto jsPDF
-        var pdf = new jsPDF();
+        // Crear un nuevo objeto jsPDF con orientación horizontal
+        var pdf = new jsPDF({ orientation: 'landscape' });
 
         // Definir la posición inicial y el encabezado del documento
         var y = 10;
@@ -320,8 +320,10 @@
         }
 
         // Guardar el documento PDF como un archivo descargable
-        pdf.save(getNameProyecto() + '.pdf');
-    }
+        pdf.save(getNameProyecto()+'.pdf');
+   }
+
+   
 
     // Función para validar las propiedades
     function validarPropiedades(obj) {
