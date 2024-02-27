@@ -29,7 +29,7 @@ array (
           'panelDefault' => 'expanded',
         ),
       ),
-      'syncDetailEditViews' => true,
+      'syncDetailEditViews' => false,
     ),
     'panels' => 
     array (
@@ -39,50 +39,9 @@ array (
         array (
           0 => 
           array (
-            'name' => 'desde',
-            'label' => 'LBL_DESDE',
+            'name' => 'name',
+            'label' => 'LBL_NAME',
           ),
-          1 => 
-          array (
-            'name' => 'hasta',
-            'label' => 'LBL_HASTA',
-          ),
-        ),
-        1 => 
-        array (
-          0 => 
-          array (
-            'name' => 'trabajador',
-            'studio' => 'visible',
-            'label' => 'LBL_TRABAJADOR',
-          ),
-          1 => 
-          array (
-            'name' => 'valor_pagar',
-            'label' => 'LBL_VALOR_PAGAR',
-          ),
-        ),
-        2 => 
-        array (
-          0 => 
-          array (
-            'name' => 'descuentos',
-            'label' => 'LBL_DESCUENTOS',
-          ),
-          1 => 
-          array (
-            'name' => 'total',
-            'label' => 'LBL_TOTAL',
-          ),
-        ),
-        3 => 
-        array (
-          0 => 
-          array (
-            'name' => 'pagado',
-            'label' => 'LBL_PAGADO',
-          ),
-          1 => '',
         ),
       ),
     ),

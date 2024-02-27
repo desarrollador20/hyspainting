@@ -33,6 +33,10 @@ array (
         array (
           'file' => 'modules/Accounts/Account.js',
         ),
+        1 => 
+        array (
+          'file' => 'custom/modules/Accounts/javascript/view.edit.js',
+        ),
       ),
       'useTabs' => false,
       'tabDefs' => 
@@ -70,19 +74,32 @@ array (
         array (
           0 => 
           array (
-            'name' => 'email1',
-            'studio' => 'false',
-            'label' => 'LBL_EMAIL',
+            'name' => 'jjwg_maps_address_c',
+            'label' => 'LBL_JJWG_MAPS_ADDRESS',
           ),
           1 => 
           array (
-            'name' => 'jjwg_maps_address_c',
-            'label' => 'LBL_JJWG_MAPS_ADDRESS',
+            'name' => 'fecha_vinculacion_c',
+            'label' => 'LBL_FECHA_VINCULACION',
           ),
         ),
         2 => 
         array (
           0 => 
+          array (
+            'name' => 'email1',
+            'studio' => 'false',
+            'label' => 'LBL_EMAIL',
+          ),
+        ),
+        3 => 
+        array (
+          0 => 
+          array (
+            'name' => 'contacto_facturacion_c',
+            'label' => 'LBL_CONTACTO_FACTURACION',
+          ),
+          1 => 
           array (
             'name' => 'description',
             'label' => 'LBL_DESCRIPTION',

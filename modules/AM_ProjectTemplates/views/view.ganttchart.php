@@ -142,7 +142,8 @@ class AM_ProjectTemplatesViewGanttChart extends ViewDetail
             <!--Delete task pop-up-->
             <div id="delete_dialog" title="<?php echo $mod_strings['LBL_DELETE_TASK']; ?>">
                 <p>
-                    Are you sure you want to delete this task?
+                     <!-- Are you sure you want to delete this task? -->
+					¿En realidad deseas eliminar la tarea?
                 </p>
             </div>
         </div>

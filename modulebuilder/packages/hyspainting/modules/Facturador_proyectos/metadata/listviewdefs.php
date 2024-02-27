@@ -19,6 +19,13 @@ array (
     'width' => '10%',
     'default' => true,
   ),
+  'NUM_FACTURA' => 
+  array (
+    'type' => 'int',
+    'label' => 'LBL_NUM_FACTURA',
+    'width' => '10%',
+    'default' => true,
+  ),
   'FECHA_CORTE' => 
   array (
     'type' => 'varchar',
@@ -38,13 +45,6 @@ array (
     'type' => 'currency',
     'label' => 'LBL_VALOR_TOTAL',
     'currency_format' => true,
-    'width' => '10%',
-    'default' => true,
-  ),
-  'FECHA_CREACION' => 
-  array (
-    'type' => 'date',
-    'label' => 'LBL_FECHA_CREACION',
     'width' => '10%',
     'default' => true,
   ),

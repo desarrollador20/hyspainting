@@ -428,7 +428,7 @@
                         if (registro) {
                             var cellId = usuario + '-' + fecha;
                             horas_trabajo.textContent = registro.horas_trabajo;
-                            horas_viaje.textContent=  (pago_extra.includes('travel')) ? registro.horas_viaje : ''
+                            horas_viaje.textContent=  (pago_extra?.includes('travel')) ? registro.horas_viaje : ''
                           //  horas_viaje.textContent = registro.horas_viaje;
                             if (registro.horas_trabajo !== null && !isNaN(parseFloat(registro.horas_trabajo))) {
                                 subtotalHorasUsuario += parseFloat(registro.horas_trabajo);

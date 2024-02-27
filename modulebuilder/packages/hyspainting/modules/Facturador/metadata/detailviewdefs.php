@@ -68,8 +68,9 @@ array (
           ),
           1 => 
           array (
-            'name' => 'valor_pagar',
-            'label' => 'LBL_VALOR_PAGAR',
+            'name' => 'proyecto',
+            'studio' => 'visible',
+            'label' => 'LBL_PROYECTO',
           ),
         ),
         2 => 
@@ -92,7 +93,19 @@ array (
             'name' => 'pagado',
             'label' => 'LBL_PAGADO',
           ),
-          1 => '',
+          1 => 
+          array (
+            'name' => 'estado',
+            'label' => 'LBL_ESTADO',
+          ),
+        ),
+        4 => 
+        array (
+          0 => 
+          array (
+            'name' => 'valor_pagar',
+            'label' => 'LBL_VALOR_PAGAR',
+          ),
         ),
       ),
     ),

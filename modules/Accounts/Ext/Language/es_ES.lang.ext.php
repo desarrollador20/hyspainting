@@ -2,7 +2,7 @@
 // WARNING: The contents of this file are auto-generated
 
 
-// created: 2024-02-22 20:53:57
+// created: 2024-02-26 18:33:41
 $mod_strings['LNK_NEW_ACCOUNT'] = 'Crear Compania';
 $mod_strings['LNK_ACCOUNT_LIST'] = 'Ver Companias';
 $mod_strings['LNK_IMPORT_ACCOUNTS'] = 'Importar Companias';
@@ -17,4 +17,9 @@ $mod_strings['LBL_HOMEPAGE_TITLE'] = 'Mis Companias';
 $mod_strings['LBL_PARENT_ACCOUNT_ID'] = 'ID Compania Padre';
 $mod_strings['LBL_MODULE_NAME'] = 'Companias';
 $mod_strings['LBL_PROJECTS_SUBPANEL_TITLE'] = 'Proyectos';
+$mod_strings['LBL_CONTACTS_SUBPANEL_TITLE'] = 'Contactos';
+$mod_strings['LBL_PHONE_OFFICE'] = 'Teléfono';
+$mod_strings['LBL_CONTACTO_FACTURACION'] = 'Contacto';
+$mod_strings['LBL_FECHA_VINCULACION'] = 'Fecha de  vinculación';
+$mod_strings['LBL_JJWG_MAPS_ADDRESS'] = 'Dirección';
 

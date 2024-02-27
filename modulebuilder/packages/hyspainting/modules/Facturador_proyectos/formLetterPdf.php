@@ -162,7 +162,7 @@ foreach ($recordIds as $recordId) {
 
 
 
-    $printable = str_replace("\n", "<br />", $converted);
+    //$printable = str_replace("\n", "<br />", $converted);
     $printable=$converted;
 
     try {
@@ -222,14 +222,14 @@ function getTabla($valores, $tipoCobro)
 {
     // $valor = json_decode($valores);
     $lista = $GLOBALS['app_list_strings']['hs_valores_pagar'];
-    $data = '<table style="width: 700px; padding-top: 7px;">
+    $data = '<table style="width: 670px; padding-top: 7px; ">
         <tbody>
         
             <tr>
                 <td style="width: 10%;"><strong><span style="font-size: small; color: #5e5b95;">QTY</span></strong></td>
                 <td style="width: 60%;"><strong><span style="font-size: small; color: #5e5b95;">DESCRIPTION</span></strong></td>
-                <td style="width: 15%;"><strong><span style="font-size: small; color: #5e5b95;">UNIT PRICE</span></strong></td>
-                <td style="width: 15%;"><strong><span style="font-size: small; color: #5e5b95;">LINE TOTAL</span></strong></td>
+                <td align="right" style="width: 15%;"><strong><span style="font-size: small; color: #5e5b95;">UNIT PRICE</span></strong></td>
+                <td align="right" style="width: 15%;"><strong><span style="font-size: small; color: #5e5b95;">LINE TOTAL</span></strong></td>
             </tr>';
 
     $lineTotalOt = 0;
@@ -246,16 +246,16 @@ function getTabla($valores, $tipoCobro)
                 $data .= '    <tr>
                 <td style="font-size: small;">' . $regHours . '</td>
                 <td style="font-size: small;"> Regular Hours ' . $lista[$puesto] . ' Week Ending ' . $values['fecha'] . '</td>
-                <td style="font-size: small;">$' . $values['unitPrice'] . '</td>
-                <td style="font-size: small;">$ ' . $lineTotalReg . ' </td>';
+                <td align="right" style="font-size: small;">$' . number_format($values['unitPrice'], 2, '.', ',') . '</td>
+                <td align="right" style="font-size: small;">$ ' . number_format($lineTotalReg, 2, '.', ',') . ' </td>';
 
                 if ($otHours > 0) {
                     $lineTotalOt = ($unitPrice * $otHours) * 1.5;
                     $data .= '    <tr>
                     <td style="font-size: small;">' . $otHours . ' </td>
                     <td style="font-size: small;"> Overtime Hours ' . $lista[$puesto] . ' Week Ending ' . $values['fecha'] . '</td>
-                    <td style="font-size: small;">$' . $values['unitPrice'] . '</td>
-                    <td style="font-size: small;">$ ' . $lineTotalOt . ' </td>';
+                    <td align="right" style="font-size: small;">$' . number_format($values['unitPrice'], 2, '.', ',') . '</td>
+                    <td align="right" style="font-size: small;">$ ' . number_format($lineTotalOt, 2, '.', ',') . ' </td>';
                 }
                 $unido = $lineTotalReg + $lineTotalOt;
                 $data .= '</tr>';
@@ -270,8 +270,8 @@ function getTabla($valores, $tipoCobro)
         $data .= '<tr>
             <td style="font-size: small;">' . $value . '</td>
             <td style="font-size: small;">$hs_facturador_proyectos_description</td>
-            <td style="font-size: small;">$' . $unit . '</td>
-            <td style="font-size: small;">$ ' . $unit . '</td></tr>';
+            <td align="right" style="font-size: small;">$' . number_format($unit, 2, '.', ',') . '</td>
+            <td align="right" style="font-size: small;">$ ' . number_format($unit, 2, '.', ',') . '</td></tr>';
         for ($i = 0; $i < 10; $i++) {
             $data .= '<tr>
                 <td style="font-size: small;"></td>
@@ -285,17 +285,17 @@ function getTabla($valores, $tipoCobro)
     $data .= '<tr>
             <td colspan="2"></td>
             <td><strong><span style="font-size: small; color: #5e5b95;">SUBTOTAL</span></strong></td>
-            <td style="font-size: small;">' . $total . '</td>
+            <td align="right" style="font-size: small;background-color: #e6efea"><b>$' . number_format($total, 2, '.', ',') . '</b></td>
         </tr>
         <tr>
             <td colspan="2"></td>
             <td><strong><span style="font-size: small; color: #5e5b95;">SALEX TAX</span></strong></td>
-            <td style="font-size: small;">' . $tax . '</td>
+            <td align="right" style="font-size: small;background-color: #e6efea"><b>$' . $tax . '</b></td>
         </tr>
         <tr>
             <td colspan="2"></td>
             <td><strong><span style="font-size: small; color: #5e5b95;">TOTAL</span></strong></td>
-            <td style="font-size: small;">' . $total . '</td>
+            <td align="right" style="font-size: small;background-color: #e6efea"><b>$' . number_format($total, 2, '.', ',') . '</b></td>
         </tr>
         </tbody>
         </table>';

@@ -39,47 +39,6 @@ array (
         array (
           0 => 
           array (
-            'name' => 'empresa',
-            'studio' => 'visible',
-            'label' => 'LBL_EMPRESA',
-          ),
-          1 => 
-          array (
-            'name' => 'proyecto',
-            'studio' => 'visible',
-            'label' => 'LBL_PROYECTO',
-          ),
-        ),
-        1 => 
-        array (
-          0 => 
-          array (
-            'name' => 'fecha_corte',
-            'label' => 'LBL_FECHA_CORTE',
-          ),
-          1 => 
-          array (
-            'name' => 'n_horas',
-            'label' => 'LBL_N_HORAS',
-          ),
-        ),
-        2 => 
-        array (
-          0 => 
-          array (
-            'name' => 'valor_total',
-            'label' => 'LBL_VALOR_TOTAL',
-          ),
-          1 => 
-          array (
-            'name' => 'fecha_creacion',
-            'label' => 'LBL_FECHA_CREACION',
-          ),
-        ),
-        3 => 
-        array (
-          0 => 
-          array (
             'name' => 'fecha_pago',
             'label' => 'LBL_FECHA_PAGO',
           ),
@@ -89,7 +48,7 @@ array (
             'label' => 'LBL_FECHA_PROXIMO_REPORTE',
           ),
         ),
-        4 => 
+        1 => 
         array (
           0 => 
           array (
@@ -102,7 +61,7 @@ array (
             'label' => 'LBL_CUSTOMER_ID',
           ),
         ),
-        5 => 
+        2 => 
         array (
           0 => 
           array (
@@ -111,11 +70,11 @@ array (
           ),
           1 => '',
         ),
-        6 => 
+        3 => 
         array (
           0 => 'description',
         ),
-        7 => 
+        4 => 
         array (
           0 => 
           array (

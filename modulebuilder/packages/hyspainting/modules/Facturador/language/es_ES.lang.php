@@ -88,4 +88,5 @@ $mod_strings = array (
   'LBL_TOTAL' => 'Total',
   'LBL_PAGADO' => 'Pagado',
   'LBL_SUBTOTAL' => 'Subtotal',
+  'LBL_EDITVIEW_PANEL1' => 'Nuevo Panel 1',
 );

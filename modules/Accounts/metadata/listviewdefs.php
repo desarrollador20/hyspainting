@@ -23,6 +23,13 @@ array (
     'customCode' => '{$EMAIL1_LINK}',
     'default' => true,
   ),
+  'CONTACTO_FACTURACION_C' => 
+  array (
+    'type' => 'varchar',
+    'default' => true,
+    'label' => 'LBL_CONTACTO_FACTURACION',
+    'width' => '10%',
+  ),
   'JJWG_MAPS_ADDRESS_C' => 
   array (
     'type' => 'varchar',
@@ -30,11 +37,12 @@ array (
     'label' => 'LBL_JJWG_MAPS_ADDRESS',
     'width' => '10%',
   ),
-  'DATE_ENTERED' => 
+  'FECHA_VINCULACION_C' => 
   array (
-    'width' => '5%',
-    'label' => 'LBL_DATE_ENTERED',
+    'type' => 'date',
     'default' => true,
+    'label' => 'LBL_FECHA_VINCULACION',
+    'width' => '10%',
   ),
   'ACCOUNT_TYPE' => 
   array (
@@ -146,16 +154,16 @@ array (
     'label' => 'LBL_WEBSITE',
     'default' => false,
   ),
+  'DATE_ENTERED' => 
+  array (
+    'width' => '5%',
+    'label' => 'LBL_DATE_ENTERED',
+    'default' => false,
+  ),
   'OWNERSHIP' => 
   array (
     'width' => '10%',
     'label' => 'LBL_OWNERSHIP',
-    'default' => false,
-  ),
-  'EMPLOYEES' => 
-  array (
-    'width' => '10%',
-    'label' => 'LBL_EMPLOYEES',
     'default' => false,
   ),
   'SIC_CODE' => 

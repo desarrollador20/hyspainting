@@ -81,6 +81,19 @@ array (
         array (
           0 => 
           array (
+            'name' => 'desde',
+            'label' => 'LBL_DESDE',
+          ),
+          1 => 
+          array (
+            'name' => 'hasta',
+            'label' => 'LBL_HASTA',
+          ),
+        ),
+        3 => 
+        array (
+          0 => 
+          array (
             'name' => 'fecha_corte',
             'label' => 'LBL_FECHA_CORTE',
           ),
@@ -90,7 +103,7 @@ array (
             'label' => 'LBL_N_HORAS',
           ),
         ),
-        3 => 
+        4 => 
         array (
           0 => 
           array (
@@ -103,7 +116,7 @@ array (
             'label' => 'LBL_FECHA_CREACION',
           ),
         ),
-        4 => 
+        5 => 
         array (
           0 => 
           array (
@@ -116,7 +129,7 @@ array (
             'label' => 'LBL_FECHA_PROXIMO_REPORTE',
           ),
         ),
-        5 => 
+        6 => 
         array (
           0 => 
           array (
@@ -129,7 +142,7 @@ array (
             'label' => 'LBL_CUSTOMER_ID',
           ),
         ),
-        6 => 
+        7 => 
         array (
           0 => 
           array (
@@ -138,11 +151,11 @@ array (
           ),
           1 => '',
         ),
-        7 => 
+        8 => 
         array (
           0 => 'description',
         ),
-        8 => 
+        9 => 
         array (
           0 => 
           array (

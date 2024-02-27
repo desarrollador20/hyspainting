@@ -111,7 +111,7 @@
     // Asigna valores a los campos del nuevo contenedor
     //const selectProyecto = clonedContainer.querySelector('select[name="proyecto"]');
     const dateParts = data.fecha.split('-'); // Divide la fecha en partes (año, mes, día)
-    const formattedFecha = `${dateParts[2]}-${getMonthName(dateParts[1])}-${dateParts[0]}`; // Formato "dia-mes-año"
+    const formattedFecha = `${dateParts[2]}-${getMonthName(dateParts[1])}`; // Formato "dia-mes-año" // -${dateParts[0].substring(2)}
 
     selectProyecto.value = data.project_id_c;
     registroId.value = data.id;
@@ -122,6 +122,7 @@
     horasTrabajoInput.value = data.horas_trabajo;
     const labelDia = clonedContainer.querySelector('.dia');
     const spanElement = labelDia.querySelector('span'); // Obtén el elemento <span> dentro de .dia
+    //spanElement.style.fontSize = '14px';
     spanElement.textContent = data.dia + ' ' + formattedFecha;
 
 

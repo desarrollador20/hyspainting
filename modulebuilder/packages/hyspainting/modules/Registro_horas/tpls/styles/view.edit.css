@@ -97,6 +97,10 @@
       font-size: 24px; /* Tamaño de fuente más pequeño para móviles */
       text-align: center;
     }
+    .dia > span{
+      font-size:13px;
+    
+   }
   }
 
   .actions {

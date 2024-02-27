@@ -181,6 +181,7 @@ $layout_defs['Accounts'] = array(
                         ),
                 ),
         ),*/
+         /*
         'contacts' => array(
             'order' => 30,
             'module' => 'Contacts',
@@ -195,6 +196,7 @@ $layout_defs['Accounts'] = array(
                 array('widget_class' => 'SubPanelTopSelectButton', 'mode' => 'MultiSelect')
             ),
         ),
+        /*
         /*
         'opportunities' => array(
             'order' => 40,
