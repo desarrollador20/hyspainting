@@ -10,26 +10,29 @@ $proyecto=$_REQUEST['proyecto'];
 function obtenerIdNotasParaEnviarPDF($idFacturadorProyecto){
     
       $query = "SELECT 
-                        hs_facturador_proyectos_notesnotes_idb,
-                        (SELECT 
-                               p.hs_facturador_proyectos_notesnotes_idb
-                            FROM
-                                hs_facturador_proyectos_notes_c p
-                            INNER JOIN 
-                                notes n
-                                    ON p.hs_facturador_proyectos_notesnotes_idb = n.id
-                            WHERE 
-                                p.deleted = 0 AND n.portal_flag = 1 AND
-                                p.hs_facturador_proyectos_noteshs_facturador_proyectos_ida =  '123'
-                        ) AS nota_adjunto
-                FROM 
-                        hs_facturador_proyectos_notes_c
+                    p.hs_facturador_proyectos_notesnotes_idb nota_adjunto,
+                    (SELECT 
+                            p_s.hs_facturador_proyectos_notesnotes_idb                
+                        FROM 
+                                hs_facturador_proyectos_notes_c p_s
+                        LEFT JOIN 
+                                notes n_s
+                                    ON p_s.hs_facturador_proyectos_notesnotes_idb = n_s.id
+                        WHERE 
+                            p_s.deleted = 0 AND  n_s.portal_flag = 0 AND 
+                            p_s.hs_facturador_proyectos_noteshs_facturador_proyectos_ida = '".$idFacturadorProyecto."'
+                        ORDER BY 
+                            p_s.date_modified DESC
+                        LIMIT 1
+                    ) AS hs_facturador_proyectos_notesnotes_idb
+                FROM
+                       hs_facturador_proyectos_notes_c p
+                INNER JOIN 
+                       notes n
+                        ON p.hs_facturador_proyectos_notesnotes_idb = n.id
                 WHERE 
-                    deleted = 0 AND 
-                    hs_facturador_proyectos_noteshs_facturador_proyectos_ida = '123'
-                ORDER BY 
-                    date_modified DESC
-                LIMIT 1";
+                        p.deleted = 0 AND n.portal_flag = 1 AND
+                        p.hs_facturador_proyectos_noteshs_facturador_proyectos_ida =  '".$idFacturadorProyecto."'";
               
     $result = $GLOBALS['db']->query($query);
     if ($result && $result->num_rows > 0) {
