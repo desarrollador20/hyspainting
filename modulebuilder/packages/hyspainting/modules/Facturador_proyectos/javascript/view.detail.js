@@ -1,5 +1,5 @@
 
-function enviarFactura(idFactura,numFactura) {
+function enviarFactura(idFacturadorProyecto,numFactura,empresa,proyecto) {
 
     const time = 1;
     SUGAR.ajaxUI.showLoadingPanel();
@@ -10,8 +10,10 @@ function enviarFactura(idFactura,numFactura) {
             url: 'index.php?entryPoint=setEmail',
             data: {
                 action: 'enviar_factura',
-                idFactura: idFactura,
-                numFactura: numFactura
+                idFacturadorProyecto:idFacturadorProyecto,
+                numFactura: numFactura,
+                empresa:empresa,
+                proyecto:proyecto
             },
             error: function(xhr, status, error) {
                 console.error(error);

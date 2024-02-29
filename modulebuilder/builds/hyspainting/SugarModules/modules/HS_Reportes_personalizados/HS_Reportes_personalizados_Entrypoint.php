@@ -46,6 +46,10 @@ switch ($action) {
     case 'setFacturadorProyectos':
         $res = $controller->setFacturadorProyectos($_REQUEST);
         break;
+    case 'guardarPDFRegistroHoras':
+        $res = $controller->guardarPDFRegistroHoras($_FILES,$_REQUEST);
+         break;
+        
 }
 
 echo json_encode($res);

@@ -288,7 +288,7 @@
         filaEncabezado.appendChild(thNombre);
 
         const thClear = document.createElement('th');
-        thClear.textContent = '';
+        thClear.textContent = 'Type';
         filaEncabezado.appendChild(thClear);
         tabla.createTBody()
 
@@ -390,6 +390,7 @@
                     var trTrahour = document.createElement('tr');
                     var clear = document.createElement('tr');
                     var subtotalHorasUsuario = 0; // Subtotal de horas trabajadas por usuario
+                    var subtotalHorasUsuarioVistaTabla = 0; 
                     var subtotalHorasViaje = 0;
                     var otHourTotal = 0;
                     var trHourTotal = 0;
@@ -451,18 +452,23 @@
                     if (pago_extra == '^overtime^' && subtotalHorasUsuario > limiteHoras) {
                         otHourTotal = subtotalHorasUsuario - limiteHoras;
                         subtotalHorasUsuario = limiteHoras;
+                        subtotalHorasUsuarioVistaTabla = limiteHoras;
                     } else if (pago_extra == '^travel^') {
+                        subtotalHorasUsuarioVistaTabla = subtotalHorasUsuario;
                         subtotalHorasUsuario += subtotalHorasViaje;
-
                     } else if (pago_extra == '^travel^,^overtime^') {
-                        let aux = subtotalHorasUsuario += subtotalHorasViaje
+                        subtotalHorasUsuarioVistaTabla = subtotalHorasUsuario;
+                        let aux = subtotalHorasUsuario += subtotalHorasViaje;
                         if (aux > limiteHoras) {
                             otHourTotal = aux - limiteHoras;
+                            subtotalHorasUsuarioVistaTabla = limiteHoras;
                             subtotalHorasUsuario = limiteHoras;
                         }
-
+                    }else{
+                        subtotalHorasUsuarioVistaTabla =  subtotalHorasUsuario;
                     }
-                    userRow.appendChild(document.createElement('td')).textContent = subtotalHorasUsuario;
+                    
+                    userRow.appendChild(document.createElement('td')).textContent = subtotalHorasUsuarioVistaTabla;
                     trOthour.appendChild(document.createElement('td')).textContent = otHourTotal
                     trTrahour.appendChild(document.createElement('td')).textContent = subtotalHorasViaje;
 
@@ -493,7 +499,8 @@
                     tbody.appendChild(clear);
 
                 }
-                sumRegHour += subtotalHorasUsuario;
+                //sumRegHour += subtotalHorasUsuario;
+                sumRegHour += subtotalHorasUsuarioVistaTabla;
                 sumOtHour += otHourTotal;
                 sumTrHour += subtotalHorasViaje;
 

@@ -278,6 +278,36 @@ class HS_Reportes_personalizadosController extends SugarController
         return $result;
     }
 
+    public function guardarPDFRegistroHoras($archivoPdf,$data){
+
+        global $sugar_config, $current_user;
+
+            if (isset($archivoPdf['pdf']) && $archivoPdf['pdf']['error'] == 0) {
+                $note = BeanFactory::newBean('Notes');
+                $note->modified_user_id = $current_user->id;
+                $note->created_by = $current_user->id;
+                $note->name = $archivoPdf['pdf']['name'];
+                $note->parent_type = "HS_Facturador_proyectos";
+                $note->parent_id = $data["id_facturador_proyecto"];
+                $note->file_mime_type = 'application/pdf';
+                $note->filename = $archivoPdf['pdf']['name'];
+                $note->portal_flag = 1;
+                $note->save();
+               
+                $tmpNombre = $archivoPdf['pdf']['tmp_name']; 
+                $nombre_archivo = $archivoPdf['pdf']['name']."_temp_".rand(1000, 9999);
+                $rutaDestino = $sugar_config['upload_dir'].$nombre_archivo;
+                move_uploaded_file($tmpNombre,$rutaDestino);
+                rename($rutaDestino, $sugar_config['upload_dir'] . $note->id);
+                $Facturador_Proyecto = BeanFactory::getBean('HS_Facturador_proyectos', $data["id_facturador_proyecto"]);
+                $Facturador_Proyecto->load_relationship('hs_facturador_proyectos_notes');
+                $Facturador_Proyecto->hs_facturador_proyectos_notes->add($note);
+                return $note->id;
+          }
+       
+        
+    }
+
 
     public function setFacturadorProyectos($data)
     {

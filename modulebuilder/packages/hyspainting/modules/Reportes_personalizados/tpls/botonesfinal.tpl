@@ -228,6 +228,7 @@
         const id_trabajador = $idElement.val();
         const desde = $desdeElement.val();
         const hasta = $hastaElement.val();
+
         const query = {
             action: 'verificarFacturaUsuarios',
             id_trabajador: id_trabajador,
@@ -272,6 +273,31 @@
             }
         });
     }
+
+
+     function getPDFProyectFile() {
+
+        // Crear un nuevo objeto jsPDF con orientación horizontal
+        var pdf = new jsPDF({ orientation: 'landscape' });
+
+        // Definir la posición inicial y el encabezado del documento
+        var y = 10;
+        pdf.text("Reporte de Tiempo", 20, y);
+
+        // Iterar sobre cada tabla y agregarla al documento PDF
+        var tables = ['semana1', 'resumen1', 'semana2', 'resumen2'];
+        for (var i = 0; i < tables.length; i++) {
+            var tableId = tables[i];
+
+            // Agregar la tabla utilizando jsPDF-AutoTable
+            pdf.autoTable({ html: '#' + tableId, startY: y + 10 });
+
+            // Ajustar la posición para la próxima tabla
+            y = pdf.autoTable.previous.finalY + 10;
+        }
+        var blob = pdf.output('blob');
+        return blob;
+   }
 
     function setExcelProyect() {
         const wb = XLSX.utils.book_new();
@@ -391,8 +417,8 @@
             return false;
         }
 
+      
         SUGAR.ajaxUI.showLoadingPanel();
- 
         $.ajax({
             type: "POST",
             url: 'index.php?entryPoint=GetMethodsReportesEntryPoint',
@@ -403,8 +429,27 @@
             },
             success: function (data) {
                 if (esGUIDValido(data)) {
-                    clearDataTablesProyecto();
-                    alert('Facturador Proyecto generado con exito');
+                    var formData = new FormData();
+                    const pdfBlob = getPDFProyectFile();
+                    formData.append("action",'guardarPDFRegistroHoras');
+                    formData.append("id_facturador_proyecto",data);
+                    formData.append("pdf", pdfBlob, getNameProyecto()+'.pdf');
+
+                    fetch('index.php?entryPoint=GetMethodsReportesEntryPoint', { 
+                        method: 'POST',
+                        body: formData,
+                    })
+                    .then(response => response.json())
+                    .then(dataDos => {
+                         if (esGUIDValido(dataDos)) {
+                          clearDataTablesProyecto();
+                          alert('Facturador Proyecto generado con exito');
+                         }
+                    })
+                    .catch(error => {
+                        alert('Error al enviar el PDF', error);
+                    });
+
                 }
                 SUGAR.ajaxUI.hideLoadingPanel();
 
