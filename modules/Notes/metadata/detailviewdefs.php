@@ -40,7 +40,11 @@ array (
       array (
         0 => 
         array (
-          0 => 'contact_name',
+          0 => 
+          array (
+            'name' => 'name',
+            'label' => 'LBL_SUBJECT',
+          ),
           1 => 
           array (
             'name' => 'parent_name',
@@ -51,28 +55,17 @@ array (
         array (
           0 => 
           array (
-            'name' => 'name',
-            'label' => 'LBL_SUBJECT',
-          ),
-        ),
-        2 => 
-        array (
-          0 => 
-          array (
             'name' => 'filename',
           ),
+          1 => '',
         ),
-        3 => 
+        2 => 
         array (
           0 => 
           array (
             'name' => 'description',
             'label' => 'LBL_NOTE_STATUS',
           ),
-        ),
-        4 => 
-        array (
-          0 => 'assigned_user_name',
           1 => '',
         ),
       ),

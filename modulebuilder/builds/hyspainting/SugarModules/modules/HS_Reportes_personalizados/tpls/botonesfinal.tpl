@@ -3,7 +3,7 @@
 {if $tipoReporte == 'usuarios'}
 <div class="final-buttons">
     <button id="btnUsuarios" class="button" onclick="setExcel();">Exportar Excel</button>
-    <button id="btnProyectos" class="button" onclick="setPDF();">Exportar Pdf</button>
+    <button id="btnProyectos" class="button" onclick="setPDF(0);">Exportar Pdf</button>
     <button id="btnProyectos" class="button"
         onclick="verificarFacturador('trabajadores','HS_Facturador');">Guardar</button>
 </div>
@@ -31,7 +31,7 @@
 {literal}
 <script>
     var trabajador = $('#trabajadores option:selected').text();
-    function setPDF() {
+    function setPDF(getBlob) {
          trabajador = $('#trabajadores option:selected').text();
         const pdf = new jsPDF();
         const theme = {
@@ -60,8 +60,12 @@
         }
         const resumenTable = document.getElementById('resumen');
         pdf.addPage();
-        pdf.autoTable({ html: `#${resumenTable.id}`, theme: 'grid', margin: { top: 20 } });
-
+        pdf.autoTable({ html: `#${resumenTable.id}`, theme: 'grid', marign: { top: 20 } });
+        // no descargo el pdf sino obtendo la data e  blob
+        if(getBlob == 1){
+            var blob = pdf.output('blob');
+            return blob; 
+        }
         // Descargar el archivo PDF
         pdf.save(getname() + '.pdf');
 
@@ -180,7 +184,7 @@
     }
 
 
-    function setFacturadorUsuarios(desde, hasta, id_trabajador) {
+    function setFacturadorUsuarios(desde, hasta, id_trabajador,pdfBlob) {
         const subtotal = document.getElementById("subtotal");
         const prestamos = document.getElementById("loan");
         const total = document.getElementById("total");
@@ -203,17 +207,37 @@
         var formulario = document.createElement('form');
         formulario.method = 'post';
         formulario.action = 'index.php';
+        formulario.enctype = 'multipart/form-data';
 
-        for (let i = 0; i < data.length; i++) {
-            var campoNombre = document.createElement('input');
-            campoNombre.type = 'text';
-            campoNombre.name = data[i].name;  // Nombre del campo en tu script PHP
-            campoNombre.value = data[i].valor;
-            formulario.appendChild(campoNombre);
-        }
+        data.forEach(function(item) {
+            var campo = document.createElement('input');
+            campo.type = 'hidden'; // Usamos campos ocultos
+            campo.name = item.name;
+            campo.value = item.valor;
+            formulario.appendChild(campo);
+        });
 
-        document.body.appendChild(formulario);
-        formulario.submit();
+
+         var reader = new FileReader();
+         reader.onload = function(event) {
+            var base64 = event.target.result.split(',')[1]; // Obtenemos la parte base64 de la Data URL
+
+            // Creamos el campo oculto para el PDF en base64
+            var campoPdf = document.createElement('input');
+            campoPdf.type = 'hidden';
+            campoPdf.name = 'pdf'; // Este será el nombre para acceder al PDF en el servidor
+            campoPdf.value = base64; // El valor base64 del archivo PDF
+            formulario.appendChild(campoPdf);
+
+            // Finalmente, agregamos el formulario al cuerpo del documento y lo enviamos
+            document.body.appendChild(formulario);
+            formulario.submit();
+        };
+        reader.readAsDataURL(pdfBlob); 
+
+      
+
+        
     }
 
 
@@ -248,7 +272,8 @@
             success: function (data) {
                 if (data[0] == "false") {
                     if (modulo === 'HS_Facturador') {
-                        setFacturadorUsuarios(desde, hasta, id_trabajador);
+                        var dataBlob = setPDF(1);
+                        setFacturadorUsuarios(desde, hasta, id_trabajador,dataBlob);
                     } else {
                         setFacturadorProyectos();
                     }

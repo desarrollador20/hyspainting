@@ -209,6 +209,7 @@ class HS_Reportes_personalizadosController extends SugarController
 
     public function action_setFacturadorUsuarios()
     {
+        global $sugar_config,$current_user;
         $dateTimeActual = new DateTime();
         // Obtener la cadena formateada de fecha y hora
         $fechaHoraActual = $dateTimeActual->format('Y-m-d H:i:s');
@@ -226,10 +227,34 @@ class HS_Reportes_personalizadosController extends SugarController
         $facturaUsuarios->pagado = 'No';
         $facturaUsuarios->save();
 
+        if (isset($_POST['pdf'])) {
+            $nombre_archivo = 'pdf_registro_horas_usuario_'.rand(1000, 9999).'.pdf';
+            $rutaArchivo = $sugar_config['upload_dir']  . $nombre_archivo;
+            $note = BeanFactory::newBean('Notes');
+            $note->modified_user_id = $current_user->id;
+            $note->created_by = $current_user->id;
+            $note->name = 'Valor Factura: $' .  number_format($_POST['total'], 2, '.', ',');
+            $note->parent_type = "HS_Facturador";
+            $note->parent_id = $facturaUsuarios->id;
+            $note->file_mime_type = 'application/pdf';
+            $note->filename =  $nombre_archivo;
+            $note->save();
 
-        echo "<script>alert('¡Reporte Guardado con exito!');</script>";
+            $pdfDecodificado = base64_decode($_POST['pdf']);
+           
+            file_put_contents($rutaArchivo, $pdfDecodificado);
+            rename( $rutaArchivo, $sugar_config['upload_dir'] . $note->id);
+            $facturaUsuarios->load_relationship('hs_facturador_notes');
+            $facturaUsuarios->hs_facturador_notes->add($note);
+            
+        }
 
-        SugarApplication::redirect('index.php?module=HS_Reportes_personalizados&action=setreportesusuarios&data=exito');
+        echo "<script>
+                alert('¡Reporte Guardado con exito!');
+                window.location.href = 'index.php?module=HS_Reportes_personalizados&action=setreportesusuarios&data=exito';
+            </script>";
+
+       // SugarApplication::redirect('index.php?module=HS_Reportes_personalizados&action=setreportesusuarios&data=exito');
 
         // return $data;
     }

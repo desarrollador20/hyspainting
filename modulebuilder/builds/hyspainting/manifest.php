@@ -63,9 +63,9 @@ $manifest = array (
   'icon' => '',
   'is_uninstallable' => true,
   'name' => 'hyspainting',
-  'published_date' => '2024-02-29 18:53:29',
+  'published_date' => '2024-02-29 22:32:01',
   'type' => 'module',
-  'version' => 1709232809,
+  'version' => 1709245921,
   'remove_tables' => 'prompt',
 );
 
@@ -128,6 +128,11 @@ $installdefs = array (
   array (
     0 => 
     array (
+      'from' => '<basepath>/SugarModules/relationships/layoutdefs/hs_facturador_notes_HS_Facturador.php',
+      'to_module' => 'HS_Facturador',
+    ),
+    1 => 
+    array (
       'from' => '<basepath>/SugarModules/relationships/layoutdefs/hs_facturador_proyectos_notes_HS_Facturador_proyectos.php',
       'to_module' => 'HS_Facturador_proyectos',
     ),
@@ -135,6 +140,10 @@ $installdefs = array (
   'relationships' => 
   array (
     0 => 
+    array (
+      'meta_data' => '<basepath>/SugarModules/relationships/relationships/hs_facturador_notesMetaData.php',
+    ),
+    1 => 
     array (
       'meta_data' => '<basepath>/SugarModules/relationships/relationships/hs_facturador_proyectos_notesMetaData.php',
     ),
@@ -194,23 +203,47 @@ $installdefs = array (
     ),
     2 => 
     array (
+      'from' => '<basepath>/SugarModules/relationships/language/HS_Facturador.php',
+      'to_module' => 'HS_Facturador',
+      'language' => 'en_us',
+    ),
+    3 => 
+    array (
+      'from' => '<basepath>/SugarModules/relationships/language/HS_Facturador.php',
+      'to_module' => 'HS_Facturador',
+      'language' => 'es_ES',
+    ),
+    4 => 
+    array (
+      'from' => '<basepath>/SugarModules/relationships/language/Notes.php',
+      'to_module' => 'Notes',
+      'language' => 'en_us',
+    ),
+    5 => 
+    array (
+      'from' => '<basepath>/SugarModules/relationships/language/Notes.php',
+      'to_module' => 'Notes',
+      'language' => 'es_ES',
+    ),
+    6 => 
+    array (
       'from' => '<basepath>/SugarModules/relationships/language/HS_Facturador_proyectos.php',
       'to_module' => 'HS_Facturador_proyectos',
       'language' => 'en_us',
     ),
-    3 => 
+    7 => 
     array (
       'from' => '<basepath>/SugarModules/relationships/language/HS_Facturador_proyectos.php',
       'to_module' => 'HS_Facturador_proyectos',
       'language' => 'es_ES',
     ),
-    4 => 
+    8 => 
     array (
       'from' => '<basepath>/SugarModules/language/application/en_us.lang.php',
       'to_module' => 'application',
       'language' => 'en_us',
     ),
-    5 => 
+    9 => 
     array (
       'from' => '<basepath>/SugarModules/language/application/es_ES.lang.php',
       'to_module' => 'application',
@@ -221,10 +254,20 @@ $installdefs = array (
   array (
     0 => 
     array (
-      'from' => '<basepath>/SugarModules/relationships/vardefs/hs_facturador_proyectos_notes_Notes.php',
+      'from' => '<basepath>/SugarModules/relationships/vardefs/hs_facturador_notes_Notes.php',
       'to_module' => 'Notes',
     ),
     1 => 
+    array (
+      'from' => '<basepath>/SugarModules/relationships/vardefs/hs_facturador_notes_HS_Facturador.php',
+      'to_module' => 'HS_Facturador',
+    ),
+    2 => 
+    array (
+      'from' => '<basepath>/SugarModules/relationships/vardefs/hs_facturador_proyectos_notes_Notes.php',
+      'to_module' => 'Notes',
+    ),
+    3 => 
     array (
       'from' => '<basepath>/SugarModules/relationships/vardefs/hs_facturador_proyectos_notes_HS_Facturador_proyectos.php',
       'to_module' => 'HS_Facturador_proyectos',
@@ -233,6 +276,13 @@ $installdefs = array (
   'layoutfields' => 
   array (
     0 => 
+    array (
+      'additional_fields' => 
+      array (
+        'Notes' => 'hs_facturador_notes_name',
+      ),
+    ),
+    1 => 
     array (
       'additional_fields' => 
       array (

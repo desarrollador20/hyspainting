@@ -8,7 +8,13 @@ class HS_Facturador_proyectosListViewSmarty extends ListViewSmarty
     public function __construct()
     {
         parent::__construct();
-        $this->targetList = true;
+        $this->targetList = false;
+        $this->quickViewLinks = false;
+        $this->delete=false;
+        $this->mergeduplicates=false;
+        $this->showMassupdateFields=false;
+
+
     }
 
     protected function buildAddAccountContactsToTargetList()
@@ -85,7 +91,8 @@ class HS_Facturador_proyectosListViewSmarty extends ListViewSmarty
  			open_popup('ProspectLists','600','400','',true,false,{ 'call_back_function':'set_return_and_save_targetlist', 'form_name':'targetlist_form','field_to_name_array':{'id':'prospect_list'}, 'passthru_data':{'do_contacts' : 1 }   } );
 EOF;
         $js = str_replace(array("\r","\n"), '', $js);
-        return "<a href='javascript:void(0)' class=\"parent-dropdown-action-handler\" id=\"targetlist_listview \" onclick=\"$js\">{$app_strings['LBL_ADD_TO_PROSPECT_LIST_BUTTON_LABEL_ACCOUNTS_CONTACTS']}</a>";
+       // no requiero esta opcion
+        // return "<a href='javascript:void(0)' class=\"parent-dropdown-action-handler\" id=\"targetlist_listview \" onclick=\"$js\">{$app_strings['LBL_ADD_TO_PROSPECT_LIST_BUTTON_LABEL_ACCOUNTS_CONTACTS']}</a>";
     }
 
 
@@ -146,11 +153,12 @@ EOF;
             }
         }
 
-        $script .= "<a href='javascript:void(0)' id='map_listview_top' " .
+         // quitar opcion de mapa
+       /* $script .= "<a href='javascript:void(0)' id='map_listview_top' " .
                     " onclick=\"return sListView.send_form(true, 'jjwg_Maps', " .
                     "'index.php?entryPoint=jjwg_Maps&display_module={$_REQUEST['module']}', " .
-                    "'{$app_strings['LBL_LISTVIEW_NO_SELECTED']}')\">{$app_strings['LBL_MAP']}</a>";
+                    "'{$app_strings['LBL_LISTVIEW_NO_SELECTED']}')\">{$app_strings['LBL_MAP']}</a>"; */
 
-        return formLetter::LVSmarty().$script;
+        return formLetter::LVSmarty()/*.$script*/;
     }
 }

@@ -38,4 +38,20 @@
  * display the words "Powered by SugarCRM" and "Supercharged by SuiteCRM".
  */
 $relationships = array (
+  'hs_facturador_notes' => 
+  array (
+    'rhs_label' => 'Notas',
+    'lhs_label' => 'Facturador Usuarios',
+    'rhs_subpanel' => 'default',
+    'lhs_module' => 'HS_Facturador',
+    'rhs_module' => 'Notes',
+    'relationship_type' => 'one-to-many',
+    'readonly' => false,
+    'deleted' => false,
+    'relationship_only' => false,
+    'for_activities' => false,
+    'is_custom' => false,
+    'from_studio' => false,
+    'relationship_name' => 'hs_facturador_notes',
+  ),
 );
