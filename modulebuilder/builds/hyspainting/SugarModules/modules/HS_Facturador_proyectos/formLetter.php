@@ -49,10 +49,9 @@ class formLetter
         global $app_strings, $sugar_config;
         if (preg_match('/^6\./', $sugar_config['sugar_version'])) {
             $script = '<a href="#" class="menuItem" onmouseover="hiliteItem(this,\'yes\');
-" onmouseout="unhiliteItem(this);" onclick="showPopup()">' . $app_strings['LBL_PRINT_AS_PDF'] . '</a>';
+" onmouseout="unhiliteItem(this);" onclick="showPopup()">Unificar Facturas</a>';
         } else {
-            $script = ' <input class="button" type="button" value="' .
-                $app_strings['LBL_PRINT_AS_PDF'] . '" ' . 'onClick="showPopup();">';
+            $script = ' <input class="button" type="button" value="Unificar Facturas" onClick="showPopup();">';
         }
 
         return $script;
