@@ -15,12 +15,8 @@ class HS_FacturadorViewList extends ViewList
         $this->lv->delete=false;
         $this->lv->export=false;
         $this->lv->mergeduplicates=false;
-        $this->lv->delete=false;
-        $this->lv->delete=false;
         $this->lv->showMassupdateFields=false;
         
-
-
         parent::display();
 
 
