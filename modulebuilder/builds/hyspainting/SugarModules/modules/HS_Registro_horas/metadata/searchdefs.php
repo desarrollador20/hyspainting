@@ -34,13 +34,21 @@ array (
         'default' => true,
         'name' => 'trabajador',
       ),
-      'current_user_only' => 
+      'horas_trabajo' => 
       array (
-        'name' => 'current_user_only',
-        'label' => 'LBL_CURRENT_USER_FILTER',
-        'type' => 'bool',
-        'default' => true,
+        'type' => 'decimal',
+        'label' => 'LBL_HORAS_TRABAJO',
         'width' => '10%',
+        'default' => true,
+        'name' => 'horas_trabajo',
+      ),
+      'horas_viaje' => 
+      array (
+        'type' => 'decimal',
+        'label' => 'LBL_HORAS_VIAJE ',
+        'width' => '10%',
+        'default' => true,
+        'name' => 'horas_viaje',
       ),
     ),
     'advanced_search' => 

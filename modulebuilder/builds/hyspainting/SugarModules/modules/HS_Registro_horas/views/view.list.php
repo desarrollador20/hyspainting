@@ -16,10 +16,7 @@ class HS_Registro_horasViewList extends ViewList
         $this->lv->delete=false;
         $this->lv->showMassupdateFields=false;
         
-
-
         parent::display();
-
 
     }
 
@@ -32,8 +29,17 @@ class HS_Registro_horasViewList extends ViewList
         
 
         $this->loadScripts([
-            'modules/Registro_horas/javascript/actualizar_masivo.js',
+            'modules/HS_Registro_horas/javascript/actualizar_masivo.js',
         ]);
+
+        echo "<script>setTimeout(function() {
+            var div = document.getElementById('MassAssign_SecurityGroups');
+            if (div) {
+                div.style.display = 'none';
+            }
+        }, 100);
+        </script>";
+        
     }
 
     private function loadStyles($styles)

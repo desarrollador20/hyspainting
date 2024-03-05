@@ -68,6 +68,19 @@ array (
           ),
           1 => '',
         ),
+        3 => 
+        array (
+          0 => 
+          array (
+            'name' => 'hs_facturador_notes_name',
+            'label' => 'LBL_HS_FACTURADOR_NOTES_FROM_HS_FACTURADOR_TITLE',
+          ),
+          1 => 
+          array (
+            'name' => 'hs_facturador_proyectos_notes_name',
+            'label' => 'LBL_HS_FACTURADOR_PROYECTOS_NOTES_FROM_HS_FACTURADOR_PROYECTOS_TITLE',
+          ),
+        ),
       ),
       'LBL_PANEL_ASSIGNMENT' => 
       array (

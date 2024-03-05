@@ -26,6 +26,24 @@ switch($action){
         $res=$controller->getRegistros($fechas);
        
       break;
+    case 'validarRegistros':
+        $idRegistros=$_REQUEST['idsRegistros'];
+        $res=$controller->validarRegistros($idRegistros);
+        if($res[0] != "0.0" || $res[1] != "0.0"){
+            $res = "tiene";
+        }else{
+            $res = "OK";
+        }
+       
+      break;
+      case 'actualizarMasivo':
+        $idRegistros=$_REQUEST['idsRegistros'];
+        $horasTrabajo=$_REQUEST['horasTrabajo'];
+        $horasViaje=$_REQUEST['horasViaje'];
+        $res=$controller->actualizarMasivo($horasTrabajo,$horasViaje,$idRegistros);
+       
+       
+      break;
      
 }
 
