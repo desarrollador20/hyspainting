@@ -101,6 +101,54 @@ class HS_Registro_horasController  extends SugarController
         }
     }
 
+    public function validarRegistros($idRegistros){
+
+        $idsArrayInput = explode(",", $idRegistros);
+        $ids_array     = array_map(function($value) { return '"' . $value . '"'; }, $idsArrayInput);
+        $ids_string    = implode(',', $ids_array); 
+
+        $query = "SELECT
+                        SUM(COALESCE(r.horas_trabajo,0)) AS horas_trabajo,
+                        SUM(COALESCE(r.horas_viaje,0)) AS horas_viaje  
+                    FROM 
+                        hs_registro_horas r
+                    WHERE 
+                        r.id IN (".$ids_string.")";
+
+       $result = $GLOBALS['db']->query($query);
+        if ($result && $result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            $total_horas_trabajo = $row['horas_trabajo'] ?? false;
+            $total_horas_viaje   = $row['horas_viaje'] ?? false;
+            return array($total_horas_trabajo,$total_horas_viaje);
+        }
+
+    }
+
+
+    public function actualizarMasivo($horasTrabajo,$horasViaje,$idRegistros){
+
+        $idsArrayInput = explode(",", $idRegistros);
+        $ids_array     = array_map(function($value) { return '"' . $value . '"'; }, $idsArrayInput);
+        $ids_string    = implode(',', $ids_array); 
+        
+        $query = "UPDATE
+                        hs_registro_horas 
+                  SET 
+                        horas_trabajo = $horasTrabajo,
+                        horas_viaje = $horasViaje
+                  WHERE 
+                        id IN (".$ids_string.")";
+
+       $result = $GLOBALS['db']->query($query);
+        if ($result) {
+            return true;
+        }else{
+            return false;
+        }
+
+    }
+
     public function getRegistrosinicial($fechas)
     {
 
