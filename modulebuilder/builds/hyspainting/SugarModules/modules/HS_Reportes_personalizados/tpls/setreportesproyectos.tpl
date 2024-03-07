@@ -322,6 +322,9 @@
 
 
     function addTablasdataProyecto(data) {
+
+        console.log('la data es ',data);
+       
         clearDataTablesProyecto();
         hidenFinalButtons('none');
         if (data.length === 0) {
@@ -379,6 +382,8 @@
             var sumRegHour = 0;
             var sumOtHour = 0;
             var sumTrHour = 0;
+            var maxHoraViajeProyecto = 0;
+            var bandera_desborde_horas_viaje = 0;
             // Iterar sobre cada usuario y llenar los datos en la tabla
             for (var usuario in data) {
                 if (data.hasOwnProperty(usuario)) {
@@ -392,7 +397,8 @@
                     var subtotalHorasUsuario = 0; // Subtotal de horas trabajadas por usuario
                     var subtotalHorasUsuarioVistaTabla = 0; 
                     var subtotalHorasViaje = 0;
-                    var otHourTotal = 0;
+                    var otHourTotal = 0; // este va par ala factura y suma en el tambien las horas de viaje 
+                    var otHourTotalPorUsuarioSinViaje = 0;
                     var trHourTotal = 0;
                     // Agregar nombre de usuario en la primera celda
                     var nameCell = document.createElement('td');
@@ -428,17 +434,20 @@
                         var clearCell = document.createElement('td');
                         if (registro) {
                             var cellId = usuario + '-' + fecha;
+                            // si el usuario agrego mas horas de viaje que las que paga el proyecto tomo el valor maximo d ehoras de viaje configurado en el proyecto
+                            maxHoraViajeProyecto = (registro.max_horas_viaje_proyecto != "0.0" && registro.horas_viaje > registro.max_horas_viaje_proyecto) ? registro.max_horas_viaje_proyecto : registro.horas_viaje;  
+                            if(registro.max_horas_viaje_proyecto != "0.0" && registro.horas_viaje > registro.max_horas_viaje_proyecto){
+                                bandera_desborde_horas_viaje+=bandera_desborde_horas_viaje+1;
+                            }
                             horas_trabajo.textContent = registro.horas_trabajo;
-                            horas_viaje.textContent=  (pago_extra?.includes('travel')) ? registro.horas_viaje : ''
-                          //  horas_viaje.textContent = registro.horas_viaje;
+                            horas_viaje.textContent=  (pago_extra?.includes('travel')) ? maxHoraViajeProyecto : ''
+                           //  horas_viaje.textContent = registro.horas_viaje;
                             if (registro.horas_trabajo !== null && !isNaN(parseFloat(registro.horas_trabajo))) {
                                 subtotalHorasUsuario += parseFloat(registro.horas_trabajo);
                             }
                             if (registro.horas_trabajo) {
-                                subtotalHorasViaje += parseFloat(registro.horas_viaje);
+                               subtotalHorasViaje += parseFloat(maxHoraViajeProyecto);
                             }
-
-
 
                         }
                         userRow.appendChild(horas_trabajo);
@@ -448,9 +457,9 @@
                     }
                     var otHourTotal = 0;
                     var trHourTotal = 0;
-
                     if (pago_extra == '^overtime^' && subtotalHorasUsuario > limiteHoras) {
                         otHourTotal = subtotalHorasUsuario - limiteHoras;
+                        otHourTotalPorUsuarioSinViaje = subtotalHorasUsuario - limiteHoras;
                         subtotalHorasUsuario = limiteHoras;
                         subtotalHorasUsuarioVistaTabla = limiteHoras;
                     } else if (pago_extra == '^travel^') {
@@ -461,6 +470,7 @@
                         let aux = subtotalHorasUsuario += subtotalHorasViaje;
                         if (aux > limiteHoras) {
                             otHourTotal = aux - limiteHoras;
+                            otHourTotalPorUsuarioSinViaje = ((subtotalHorasUsuario - limiteHoras) -subtotalHorasViaje);
                             subtotalHorasUsuarioVistaTabla = limiteHoras;
                             subtotalHorasUsuario = limiteHoras;
                         }
@@ -469,7 +479,7 @@
                     }
                     
                     userRow.appendChild(document.createElement('td')).textContent = subtotalHorasUsuarioVistaTabla;
-                    trOthour.appendChild(document.createElement('td')).textContent = otHourTotal
+                    trOthour.appendChild(document.createElement('td')).textContent = otHourTotalPorUsuarioSinViaje;
                     trTrahour.appendChild(document.createElement('td')).textContent = subtotalHorasViaje;
 
                     if (tipo_cobro === 'por_horas' && registro !== null) {
@@ -501,17 +511,24 @@
                 }
                 //sumRegHour += subtotalHorasUsuario;
                 sumRegHour += subtotalHorasUsuarioVistaTabla;
-                sumOtHour += otHourTotal;
+                sumOtHour += otHourTotalPorUsuarioSinViaje;
                 sumTrHour += subtotalHorasViaje;
 
             }
             var auxTotalHoras = sumRegHour + sumOtHour + sumTrHour;
 
-
             addTalbleProjectResumen(sumRegHour, sumOtHour, sumTrHour, nameTableResumen);
             addlabelSemana(fecha, v + 1);
             totalHoras += auxTotalHoras;
         }
+        // aviso al usuario que hubo desvorde en registro de horas de viaje 
+        $("#div_desborde_horas_viaje").remove();
+        if(bandera_desborde_horas_viaje > 0){
+            $(".edit-view-row").eq(1).append(`<div id="div_desborde_horas_viaje">
+                <p style="color:red">Existen registros cuyas horas de viaje exceden el límite permitido. Para estos casos, se ajustarán las horas de viaje al máximo establecido para el proyecto, que es de: ${registro.max_horas_viaje_proyecto} horas.</p>
+            </div>`)
+        }
+
         console.log(puestos);
         hidenFinalButtons('block');
     }

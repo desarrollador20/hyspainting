@@ -195,6 +195,8 @@
         var bandera1 = true;
         var bandera2 = true;
         const sabado = ultimoSabado(inicio);
+        var maxHoraViajeUsuario = 0;
+        var bandera_desborde_horas_viaje = 0;
         // console.log(sabado);
 
         // Limpia las dos tablas
@@ -224,10 +226,14 @@
             console.log(fechaRegistro);
 
             const fecha = cambiarFormatoFecha(datos[i].fecha);
+            if(datos[i].max_horas_viaje_usuario != "0.0" && datos[i].horas_viaje > datos[i].max_horas_viaje_usuario){
+                bandera_desborde_horas_viaje+=bandera_desborde_horas_viaje+1;
+            }
             //  var horas_viaje = parseFloat(datos[i].horas_viaje);
-            var horas_viaje = (datos[i].horas_viaje !== null && !isNaN(parseFloat(datos[i].horas_viaje))) ? parseFloat(datos[i].horas_viaje) : 0;
+            maxHoraViajeUsuario = (datos[i].max_horas_viaje_usuario != "0.0" && datos[i].horas_viaje > datos[i].max_horas_viaje_usuario) ? datos[i].max_horas_viaje_usuario : datos[i].horas_viaje;            
+            var horas_viaje = (datos[i].horas_viaje !== null && !isNaN(parseFloat(datos[i].horas_viaje))) ? parseFloat(maxHoraViajeUsuario) : 0;
             //  var horas_trabajo = parseFloat(datos[i].horas_trabajo);
-            var horas_trabajo = (datos[i].horas_trabajo !== null && !isNaN(parseFloat(datos[i].horas_trabajo))) ? parseFloat(datos[i].horas_trabajo) : 0;;
+            var horas_trabajo = (datos[i].horas_trabajo !== null && !isNaN(parseFloat(datos[i].horas_trabajo))) ? parseFloat(datos[i].horas_trabajo) : 0;
             var inf = datos[i].pago_extra;
             var horas = horas_trabajo + horas_viaje;
             var valor = horas * parseFloat(datos[i].valor_hora);
@@ -239,7 +245,8 @@
                     tabla1.append("<tr><th>Fecha</th><th>Proyecto</th><th>Horas</th><th>Valor</th></tr>");
                     bandera1 = false;
                 }
-                tabla1.append(`<tr ><td>${datos[i].dia}, ${fecha}</td><td>${datos[i].nombre_proyecto}</td><td>${(inf == '^overtime^') ? horas_trabajo : horas}</td>${columna}</tr>`);                if (!horasPorProyecto1[proyecto]) {
+                tabla1.append(`<tr ><td>${datos[i].dia}, ${fecha}</td><td>${datos[i].nombre_proyecto}</td><td>${(inf == '^overtime^') ? horas_trabajo : horas}</td>${columna}</tr>`);                
+                if (!horasPorProyecto1[proyecto]) {
                     // Inicializa un objeto con información adicional
                     horasPorProyecto1[proyecto] = {
                         horasTotales: 0,
@@ -273,6 +280,14 @@
         addRegTable(horasPorProyecto1, 'reg1');
         addRegTable(horasPorProyecto2, 'reg2');
         drawTablaResumen();
+
+         // aviso al usuario que hubo desvorde en registro de horas de viaje 
+        $("#div_desborde_horas_viaje").remove();
+        if(bandera_desborde_horas_viaje > 0){
+              $(".edit-view-row").after(`<div id="div_desborde_horas_viaje">
+                <p style="color:red">Existen registros cuyas horas de viaje exceden el límite permitido. Para estos casos, se ajustarán las horas de viaje al máximo establecido para el usuario en el proyecto, que es de: ${maxHoraViajeUsuario} horas.</p>
+            </div>`);
+        }
 
 
 

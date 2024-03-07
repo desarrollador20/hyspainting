@@ -21,22 +21,33 @@ class HS_Reportes_personalizadosController extends SugarController
     {
 
         $registro = [];
-        $query = "SELECT project.name as nombre_proyecto,
-         project.id as id_proyecto,
-         hs_registro_horas.dia as dia, 
-         horas_trabajo as horas_trabajo, 
-         hs_registro_horas.horas_viaje as horas_viaje, 
-         hs_registro_horas.fecha as fecha, 
-         users_cstm.valor_hora_c as valor_hora ,
-         project_cstm.pagos_extra_c as pago_extra
-         from hs_registro_horas 
-         left join project on hs_registro_horas.project_id_c= project.id 
-         left join users_cstm on hs_registro_horas.user_id_c=users_cstm.id_c
-         left join project_cstm on project.id = project_cstm.id_c
-         where hs_registro_horas.deleted=0 and hs_registro_horas.user_id_c='{$id_trabajador}'
-         and hs_registro_horas.fecha  BETWEEN '{$desde}' AND '{$hasta}'
-         ORDER BY hs_registro_horas.fecha ASC
-         ";
+        $query = "SELECT 
+                        project.name AS nombre_proyecto,
+                        project.id AS id_proyecto,
+                        hs_registro_horas.dia AS dia, 
+                        horas_trabajo AS horas_trabajo, 
+                        hs_registro_horas.horas_viaje AS horas_viaje, 
+                        hs_registro_horas.fecha AS fecha, 
+                        users_cstm.valor_hora_c AS valor_hora,
+                        project_cstm.pagos_extra_c AS pago_extra,
+                        COALESCE(project_cstm.max_pago_horas_viaje_proyect_c,0) AS max_horas_viaje_proyecto,
+                        COALESCE(project_cstm.max_pago_horas_viaje_usuario_c,0) AS max_horas_viaje_usuario
+                FROM 
+                    hs_registro_horas
+                LEFT JOIN 
+                        project 
+                            ON hs_registro_horas.project_id_c= project.id
+                LEFT JOIN 
+                        users_cstm 
+                            ON hs_registro_horas.user_id_c=users_cstm.id_c
+                LEFT JOIN 
+                        project_cstm 
+                            ON project.id = project_cstm.id_c
+                WHERE 
+                        hs_registro_horas.deleted=0 and hs_registro_horas.user_id_c='{$id_trabajador}'
+                        and hs_registro_horas.fecha  BETWEEN '{$desde}' AND '{$hasta}'
+                ORDER BY 
+                        hs_registro_horas.fecha ASC";
 
         $rs = $GLOBALS['db']->query($query);
 
@@ -50,6 +61,8 @@ class HS_Reportes_personalizadosController extends SugarController
                 'fecha' => $row['fecha'],
                 'valor_hora' => $row['valor_hora'],
                 'pago_extra' => $row['pago_extra'],
+                'max_horas_viaje_proyecto' => $row['max_horas_viaje_proyecto'],
+                'max_horas_viaje_usuario' => $row['max_horas_viaje_usuario'],
                 'id_proyecto' => $row['id_proyecto']
 
             ];
@@ -66,16 +79,24 @@ class HS_Reportes_personalizadosController extends SugarController
         $hoursSum = []; // Para mantener la suma de horas de viaje y trabajo
         foreach ($registro as $record) {
             $fecha = $record['fecha'];
+            $horas_viaje = ((float)$record['horas_viaje'] > (float)$record['max_horas_viaje_usuario']) ? (float)$record['max_horas_viaje_usuario'] : (float)$record['horas_viaje'];
+
             if (array_key_exists($fecha, $dateCounts)) {
                 $dateCounts[$fecha]++; // Incrementa el contador
                 // Suma las horas de viaje y trabajo para la fecha actual
-                //  $hoursSum[$fecha] += (float)$record['horas_trabajo'] + (float)$record['horas_viaje'];
-                $hoursSum[$fecha] += ($record['pago_extra'] == '^overtime^') ? (float)$record['horas_trabajo'] : (float)$record['horas_trabajo'] + (float)$record['horas_viaje'];
+                $hoursSum[$fecha] += (strpos($record['pago_extra'], "travel") !== false) 
+                  ? 
+                    (float)$record['horas_trabajo'] + $horas_viaje
+                  : 
+                    (float)$record['horas_trabajo'];
             } else {
                 $dateCounts[$fecha] = 1; // Inicializa el contador a 1
                 // Inicializa la suma de horas de viaje y trabajo para la fecha actual
-                //  $hoursSum[$fecha] = (float)$record['horas_trabajo'] + (float)$record['horas_viaje'];
-                $hoursSum[$fecha] += ($record['pago_extra'] == '^overtime^') ? (float)$record['horas_trabajo'] : (float)$record['horas_trabajo'] + (float)$record['horas_viaje'];
+                $hoursSum[$fecha] += (strpos($record['pago_extra'], "travel") !== false)  
+                  ? 
+                    (float)$record['horas_trabajo'] + $horas_viaje
+                  : 
+                    (float)$record['horas_trabajo'];
             }
         }
         // Devuelve un arreglo que contiene tanto el contador de fechas como la suma de horas
@@ -131,25 +152,39 @@ class HS_Reportes_personalizadosController extends SugarController
 
     private function getUserProyecto($desde, $hasta, $proyecto)
     {
-        $query = "SELECT hs_registro_horas.user_id_c as usuario_id,
-        hs_registro_horas.dia as dia, 
-        horas_trabajo as horas_trabajo, 
-        hs_registro_horas.horas_viaje as horas_viaje, 
-        hs_registro_horas.fecha as fecha, 
-        users_cstm.valor_hora_c as valor_hora ,
-        users_cstm.puesto_c as puesto,
-        project_cstm.pagos_extra_c as pago_extra,
-        users.first_name as nombres,
-        users.last_name as apellidos
-        from hs_registro_horas 
-        left join project on hs_registro_horas.project_id_c= project.id 
-        left join users_cstm on hs_registro_horas.user_id_c=users_cstm.id_c
-        left join project_cstm on project.id = project_cstm.id_c
-        left join users on users_cstm.id_c= users.id
-        where hs_registro_horas.deleted=0 and hs_registro_horas.project_id_c='$proyecto'
-        and hs_registro_horas.fecha  BETWEEN '{$desde}' AND '{$hasta}'
-        ORDER BY hs_registro_horas.fecha ASC
-        ";
+        $query = "SELECT 
+                        hs_registro_horas.user_id_c AS usuario_id,
+                        hs_registro_horas.dia AS dia, 
+                        horas_trabajo AS horas_trabajo, 
+                        hs_registro_horas.horas_viaje AS horas_viaje, 
+                        hs_registro_horas.fecha AS fecha, 
+                        users_cstm.valor_hora_c AS valor_hora,
+                        users_cstm.puesto_c AS puesto,
+                        project_cstm.pagos_extra_c AS pago_extra,
+                        COALESCE(project_cstm.max_pago_horas_viaje_proyect_c,0) AS max_horas_viaje_proyecto,
+		                COALESCE(project_cstm.max_pago_horas_viaje_usuario_c,0) AS max_horas_viaje_usuario,
+                        users.first_name AS nombres,
+                        users.last_name AS apellidos
+                FROM 
+                    hs_registro_horas
+                LEFT JOIN 
+                    project 
+                     ON hs_registro_horas.project_id_c= project.id
+                LEFT JOIN 
+                    users_cstm 
+                     ON hs_registro_horas.user_id_c=users_cstm.id_c
+                LEFT JOIN 
+                    project_cstm 
+                     ON project.id = project_cstm.id_c
+                LEFT JOIN 
+                    users 
+                     ON users_cstm.id_c= users.id
+                WHERE  
+                     hs_registro_horas.deleted=0 and hs_registro_horas.project_id_c='$proyecto' AND 
+                     hs_registro_horas.fecha  BETWEEN '{$desde}' AND '{$hasta}'
+                ORDER BY 
+                     hs_registro_horas.fecha ASC";
+       
 
         $rs = $GLOBALS['db']->query($query);
         $usuarios = [];
@@ -163,6 +198,8 @@ class HS_Reportes_personalizadosController extends SugarController
                     $horas_trabajo = $row['horas_trabajo'];
                     $horas_viaje = $row['horas_viaje'];
                     $pago_extra = $row['pago_extra'];
+                    $max_horas_viaje_proyecto = $row['max_horas_viaje_proyecto'];
+                    $max_horas_viaje_usuario = $row['max_horas_viaje_usuario'];
                     $valor_hora = $row['valor_hora'];
                     $puesto = $row['puesto'];
                     $name = $row['nombres'] . ' ' . $row['apellidos'];
@@ -177,6 +214,8 @@ class HS_Reportes_personalizadosController extends SugarController
                         'horas_trabajo' => $horas_trabajo,
                         'horas_viaje' => $horas_viaje,
                         'pago_extra' => $pago_extra,
+                        'max_horas_viaje_proyecto' => $max_horas_viaje_proyecto,
+                        'max_horas_viaje_usuario' => $max_horas_viaje_usuario,
                         'valor_hora' => $valor_hora,
                         'name' => $name,
                         'puesto' => $puesto

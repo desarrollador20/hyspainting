@@ -170,7 +170,11 @@ array (
             'studio' => 'visible',
             'label' => 'LBL_TIPO_COBRO',
           ),
-          1 => '',
+          1 => 
+          array (
+            'name' => 'mostrar_dirrecion_en_factura_c',
+            'label' => 'LBL_MOSTRAR_DIRRECION_EN_FACTURA',
+          ),
         ),
         6 => 
         array (
@@ -201,7 +205,7 @@ array (
             'name' => 'estimated_end_date',
             'label' => 'LBL_DATE_END',
           ),
-          1 => 'override_business_hours',
+          1 => '',
         ),
         9 => 
         array (
@@ -227,6 +231,19 @@ array (
             'name' => 'dias_corte_c',
             'studio' => 'visible',
             'label' => 'LBL_DIAS_CORTE',
+          ),
+        ),
+        11 => 
+        array (
+          0 => 
+          array (
+            'name' => 'max_pago_horas_viaje_proyect_c',
+            'label' => 'LBL_MAX_PAGO_HORAS_VIAJE_PROYECT',
+          ),
+          1 => 
+          array (
+            'name' => 'max_pago_horas_viaje_usuario_c',
+            'label' => 'LBL_MAX_PAGO_HORAS_VIAJE_USUARIO',
           ),
         ),
       ),

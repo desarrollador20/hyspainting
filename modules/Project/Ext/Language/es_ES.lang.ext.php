@@ -19,6 +19,9 @@ $mod_strings['LBL_COMPANIA_ACCOUNT_ID'] ='Compania (relacionado Cuenta ID)';
 $mod_strings['LBL_COMPANIA'] = 'Compania';
 $mod_strings['LBL_PUESTO'] = 'Puesto';
 $mod_strings['LBL_PUESTO_VALOR'] = 'Valor';
+$mod_strings['LBL_MAX_PAGO_HORAS_VIAJE_PROYECT'] = 'Máximo pago horas viaje proyecto';
+$mod_strings['LBL_MAX_PAGO_HORAS_VIAJE_USUARIO'] = 'Máximo pago horas viaje usuario';
+$mod_strings['LBL_MOSTRAR_DIRRECION_EN_FACTURA'] = 'Mostrar dirección en factura';
 
 
 // created: 2024-02-22 18:06:54
