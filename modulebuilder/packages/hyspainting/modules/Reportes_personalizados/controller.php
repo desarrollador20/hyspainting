@@ -25,8 +25,8 @@ class HS_Reportes_personalizadosController extends SugarController
                         project.name AS nombre_proyecto,
                         project.id AS id_proyecto,
                         hs_registro_horas.dia AS dia, 
-                        horas_trabajo AS horas_trabajo, 
-                        hs_registro_horas.horas_viaje AS horas_viaje, 
+                        COALESCE(horas_trabajo,0) AS horas_trabajo, 
+                        COALESCE(hs_registro_horas.horas_viaje,0) AS horas_viaje, 
                         hs_registro_horas.fecha AS fecha, 
                         users_cstm.valor_hora_c AS valor_hora,
                         project_cstm.pagos_extra_c AS pago_extra,
@@ -53,19 +53,23 @@ class HS_Reportes_personalizadosController extends SugarController
 
         while ($row = $GLOBALS['db']->fetchByAssoc($rs)) {
             // Add the date count to the current record
-            $registro[] = [
-                'nombre_proyecto' => $row['nombre_proyecto'],
-                'dia' => $row['dia'],
-                'horas_trabajo' => $row['horas_trabajo'],
-                'horas_viaje' => $row['horas_viaje'],
-                'fecha' => $row['fecha'],
-                'valor_hora' => $row['valor_hora'],
-                'pago_extra' => $row['pago_extra'],
-                'max_horas_viaje_proyecto' => $row['max_horas_viaje_proyecto'],
-                'max_horas_viaje_usuario' => $row['max_horas_viaje_usuario'],
-                'id_proyecto' => $row['id_proyecto']
+            if (
+                isset($row['horas_trabajo']) && trim($row['horas_trabajo']) !== '' && $row['horas_trabajo'] > 0
+            ) {
+                $registro[] = [
+                    'nombre_proyecto' => $row['nombre_proyecto'],
+                    'dia' => $row['dia'],
+                    'horas_trabajo' => $row['horas_trabajo'],
+                    'horas_viaje' => $row['horas_viaje'],
+                    'fecha' => $row['fecha'],
+                    'valor_hora' => $row['valor_hora'],
+                    'pago_extra' => $row['pago_extra'],
+                    'max_horas_viaje_proyecto' => $row['max_horas_viaje_proyecto'],
+                    'max_horas_viaje_usuario' => $row['max_horas_viaje_usuario'],
+                    'id_proyecto' => $row['id_proyecto']
 
-            ];
+                ];
+           }
         }
         $dateCounts = $this->countDatesOccurrencesAndSumHours($registro);
         $prestamos = $this->getPrestamosUsuarios($id_trabajador, $desde, $hasta);
@@ -155,8 +159,8 @@ class HS_Reportes_personalizadosController extends SugarController
         $query = "SELECT 
                         hs_registro_horas.user_id_c AS usuario_id,
                         hs_registro_horas.dia AS dia, 
-                        horas_trabajo AS horas_trabajo, 
-                        hs_registro_horas.horas_viaje AS horas_viaje, 
+                        COALESCE(horas_trabajo,0) AS horas_trabajo, 
+                        COALESCE(hs_registro_horas.horas_viaje,0) AS horas_viaje, 
                         hs_registro_horas.fecha AS fecha, 
                         users_cstm.valor_hora_c AS valor_hora,
                         users_cstm.puesto_c AS puesto,
@@ -190,8 +194,7 @@ class HS_Reportes_personalizadosController extends SugarController
         $usuarios = [];
         while ($row = $GLOBALS['db']->fetchByAssoc($rs)) {
             if (
-                isset($row['horas_trabajo']) && trim($row['horas_trabajo']) !== '' && $row['horas_trabajo'] > 0 &&
-                isset($row['horas_viaje'])
+                isset($row['horas_trabajo']) && trim($row['horas_trabajo']) !== '' && $row['horas_trabajo'] > 0 
             ) {
                     $usuario = $row['usuario_id'];
                     $fecha = $row['fecha'];
