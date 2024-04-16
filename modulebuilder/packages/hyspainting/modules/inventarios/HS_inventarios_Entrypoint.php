@@ -26,7 +26,7 @@ switch ($action) {
         $res = $controller->getListas();
         break;
     case 'savePrestamo':
-        $data=['id'=>$_REQUEST['id'], 'estado'=>$_REQUEST['estado'], 'usuario'=>$_REQUEST['usuario'], 'fecha'=>$_REQUEST['fecha']];
+        $data=['id'=>$_REQUEST['id'], 'estado'=>$_REQUEST['estado'], 'usuario'=>$_REQUEST['usuario'], 'fecha'=>$_REQUEST['fecha'], 'prestado'=>$_REQUEST['prestado'], 'devuelto'=>$_REQUEST['devuelto']];
         $res=$controller->savePrestamo($data);
         break;
 

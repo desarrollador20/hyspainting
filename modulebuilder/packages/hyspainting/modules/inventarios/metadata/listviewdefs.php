@@ -6,12 +6,12 @@ array (
   array (
     'type' => 'varchar',
     'label' => 'LBL_NUM_SERIE',
-    'width' => '10%',
+    'width' => '5%',
     'default' => true,
   ),
   'NAME' => 
   array (
-    'width' => '32%',
+    'width' => '22%',
     'label' => 'LBL_NAME',
     'default' => true,
     'link' => true,
@@ -20,7 +20,7 @@ array (
   array (
     'type' => 'varchar',
     'label' => 'LBL_MARCA',
-    'width' => '10%',
+    'width' => '5%',
     'default' => true,
   ),
   'MODELO' => 
@@ -30,14 +30,12 @@ array (
     'width' => '10%',
     'default' => true,
   ),
-  'UBICACION' => 
+  'CANTIDADES_INVENTARIO' => 
   array (
-    'type' => 'text',
-    'studio' => 'visible',
-    'label' => 'LBL_UBICACION',
-    'sortable' => false,
-    'width' => '10%',
+    'type' => 'int',
     'default' => true,
+    'label' => 'LBL_CANTIDADES_INVENTARIO',
+    'width' => '10%',
   ),
   'PRESTADO_A' => 
   array (
@@ -53,8 +51,15 @@ array (
   array (
     'type' => 'datetimecombo',
     'label' => 'LBL_FECHA_PRESTAMO',
-    'width' => '10%',
+    'width' => '8%',
     'default' => true,
+  ),
+  'CANTIDADES_PRESTADAS' => 
+  array (
+    'type' => 'int',
+    'default' => true,
+    'label' => 'LBL_CANTIDADES_PRESTADAS',
+    'width' => '10%',
   ),
   'PRESTADO' => 
   array (

@@ -116,7 +116,7 @@ class HS_programadorController extends SugarController
 
 
         $programacion = BeanFactory::getBean('HS_Programador', $id);
-        $fecha = date('Y-m-d', strtotime($programacion->fecha));
+        $fecha = date('m-d-Y', strtotime($programacion->fecha));
         $data = json_decode(html_entity_decode($programacion->programacion), true);
 
         $spreadsheet = new Spreadsheet();
@@ -139,7 +139,7 @@ class HS_programadorController extends SugarController
             $hora=explode(' ',$fila['hora']);
             $sheet->setCellValue('A' . $row, $fila['proyecto']);
             $sheet->setCellValue('B' . $row, $fila['direccion']);
-            $sheet->setCellValue('C' . $row, $fila['fecha']);
+            $sheet->setCellValue('C' . $row, date('m/d/Y', strtotime($programacion->fecha)));
             $sheet->setCellValue('D' . $row, $hora[1]);
             $sheet->setCellValue('E' . $row, $fila['trabajador']);
             $sheet->setCellValue('F' . $row, $fila['movil']);

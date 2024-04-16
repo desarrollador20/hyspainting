@@ -55,7 +55,7 @@ function getProgramacionWidget($focus, $field, $value, $view, $tabindex = '0')
     $projectsData = array();
 
     // Obtén todos los proyectos activos en una sola consulta
-    $query = "SELECT project.id as id, project.name as name, CONVERT_TZ( project_cstm.hora_entrada_c, '+00:00', '-05:00') as entrada, project_cstm.jjwg_maps_address_c as direccion FROM project LEFT JOIN project_cstm on 
+    $query = "SELECT project.id as id, project.name as name, CONVERT_TZ( project_cstm.hora_entrada_c, '+00:00', '-04:00') as entrada, project_cstm.jjwg_maps_address_c as direccion FROM project LEFT JOIN project_cstm on 
     project.id=project_cstm.id_c   WHERE project.deleted=0 AND project.status='activo'";;
 
     $rs = $GLOBALS['db']->query($query);

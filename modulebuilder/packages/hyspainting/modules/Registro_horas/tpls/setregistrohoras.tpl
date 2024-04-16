@@ -41,8 +41,8 @@
                 <div class="hours-label">Horas viaje:</div>
               </div>
               <div class="hours-row">
-                <input class="hours-input" name='horas_trabajo_%rand%' type="number" step="0.1" value="0.0" min="0" oninput="validarInput(this)">
-                <input class="hours-input" type="number" name='horas_viaje_%rand%' step="0.1" value="0.0" min="0" oninput="validarInput(this)">
+                <input class="hours-input" name='horas_trabajo_%rand%' type="number" step="0.5" value="0.0" min="0" oninput="validarInput(this)">
+                <input class="hours-input" type="number" name='horas_viaje_%rand%' step="0.5" value="0.0" min="0" oninput="validarInput(this)">
               </div>
             </span>
           </div>

@@ -20,12 +20,11 @@ array (
           'field' => '30',
         ),
       ),
-
-      'includes'=>
-      array(
-        0=>
-        array(
-        'file'=> 'modules/HS_inventarios/javascript/view.edit.js'
+      'includes' => 
+      array (
+        0 => 
+        array (
+          'file' => 'modules/HS_inventarios/javascript/view.edit.js',
         ),
       ),
       'useTabs' => false,
@@ -85,6 +84,19 @@ array (
           ),
         ),
         3 => 
+        array (
+          0 => 
+          array (
+            'name' => 'cantidades_inventario',
+            'label' => 'LBL_CANTIDADES_INVENTARIO',
+          ),
+          1 => 
+          array (
+            'name' => 'cantidades_prestadas',
+            'label' => 'LBL_CANTIDADES_PRESTADAS',
+          ),
+        ),
+        4 => 
         array (
           0 => 'description',
         ),

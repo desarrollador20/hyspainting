@@ -133,7 +133,7 @@ foreach ($recordIds as $recordId) {
     if (count($result) > 0) {
         $subtotal = array_merge_recursive($result[0]['data'], $aux);
     }
-    $data = getTabla($subtotal, $proyecto->tipo_cobro_c);
+    $data = getTabla($subtotal, $proyecto);
     $bean->data = $data[0];
     //$bean->valor_total = $data[1];
     $bean->save();
@@ -218,10 +218,11 @@ $emalCustom->sendEmailWithAttachments($dest,$mensaje,$asunto, $adjuntos);
 $pdf->outputPDF($file_name, 'D');
 
 
-function getTabla($valores, $tipoCobro)
+function getTabla($valores, $projecto)
 {
     // $valor = json_decode($valores);
     $lista = $GLOBALS['app_list_strings']['hs_valores_pagar'];
+    $tipoCobro =$projecto->tipo_cobro_c;
     $data = '<table style="width: 670px; padding-top: 7px; ">
         <tbody>
         
@@ -299,7 +300,9 @@ function getTabla($valores, $tipoCobro)
         </tr>
         </tbody>
         </table>';
-
+        if($projecto->mostrar_dirrecion_en_factura_c == 1){
+            $data .= '<br><div style="text-align:center"><b><i>Project Location: '. $projecto->jjwg_maps_address_c .' </i></b></div>';
+        }
 
     return [$data,$total];
 }

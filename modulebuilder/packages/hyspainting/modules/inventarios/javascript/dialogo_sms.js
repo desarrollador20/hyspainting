@@ -2,12 +2,12 @@ var qsms_disponibles = 'calculando';
 var qsms_celulares = 'calculando';
 
 
-function dialogo_enviar_qsms(idEquipo, estadoPrestamo, fecha_prestamo) {
+function dialogo_enviar_qsms(idEquipo, estadoPrestamo, opt, cantidades, fecha_prestamo) {
   var fechaLabel = 'Fecha de devolución: ...';
   if (estadoPrestamo == 'No' || estadoPrestamo == '') {
     var fechaLabel = 'Fecha de prestamo: ...';
   }
-  var modalElement = $("<div><div id='users'><p><label>Seleccione el usuario</label><select class='plantilla' name='plantilla' id='plantilla' style='width: 100%;'><option value='' disabled>Elija el usuario</option> </select></div><label>Seleccione el estado</label ></p><select class='estado' name='estado' id='estado' style='width: 100%;'></select><p> " + fechaLabel + "  <input style='width: 160px; font-size: 0.8em;' class='datetimepicker' type='text' placeholder='Inmediatamente'></p><p style='text-align: center;'></p></div>").dialog({
+  var modalElement = $("<div><div id='users'><p><label>Seleccione el usuario</label><select class='plantilla' name='plantilla' id='plantilla' style='width: 100%;'><option value='' disabled>Elija el usuario</option> </select></div><label>Seleccione el estado</label ></p><select class='estado' name='estado' id='estado' style='width: 100%;'></select><p> " + fechaLabel + "  <input style='width: 160px; font-size: 0.8em;' class='datetimepicker' type='text' placeholder='Inmediatamente'></p></br><div id='cant_prestada'><p> Cantidades Prestadas: <input id='cant_prest' style='width: 160px; font-size: 0.8em;' type='number' ></p></div><div id='cant_devuelta'><p> Cantidades Devueltas: <input id='cant_dev' style='width: 160px; font-size: 0.8em;' type='number' ></p></div><p style='text-align: center;'></p></div>").dialog({
 
     title: "Gestión de equipos",
     width: 363,
@@ -18,11 +18,21 @@ function dialogo_enviar_qsms(idEquipo, estadoPrestamo, fecha_prestamo) {
     buttons: {
       Enviar: function () {
         var date = $(this).find('.datetimepicker').val().trim();
+        var prestado =$("#cant_prest").val();
+        var devuelto =$("#cant_dev").val();
         if (date == '') {
           alert('debe ingresar la fecha y hora');
           return;
         }
+        if (prestado != '' && prestado > cantidades) {
+          alert('No hay tanta cantidad en inventario para prestar');
+          return;
+        }
 
+        if (devuelto != '' && devuelto > cantidades) {
+          alert('La cantidad Devuelta es mayor a la q se prestó');
+          return;
+        }
         if (fecha_prestamo) {
           const prestamo = new Date(fecha_prestamo);
           const devolucion = new Date(date);
@@ -33,7 +43,7 @@ function dialogo_enviar_qsms(idEquipo, estadoPrestamo, fecha_prestamo) {
         }
 
 
-        var url = "index.php?entryPoint=GetMethodsInventariosEntryPoint&action=savePrestamo&id=" + encodeURI(idEquipo) + "&usuario=" + encodeURI($(this).find('#plantilla').val()) + "&estado=" + encodeURI($(this).find('#estado').val()) + "&fecha=" + encodeURI(date);
+        var url = "index.php?entryPoint=GetMethodsInventariosEntryPoint&action=savePrestamo&id=" + encodeURI(idEquipo) + "&usuario=" + encodeURI($(this).find('#plantilla').val()) + "&estado=" + encodeURI($(this).find('#estado').val()) + "&fecha=" + encodeURI(date) + "&prestado=" + encodeURI(prestado) + "&devuelto=" + encodeURI(devuelto);
 
         $(this).dialog("close");
         SUGAR.ajaxUI.showLoadingPanel();
@@ -84,11 +94,19 @@ function dialogo_enviar_qsms(idEquipo, estadoPrestamo, fecha_prestamo) {
 
   getEstados();
   var element = document.getElementById('users');
-  if (estadoPrestamo == 'No' || estadoPrestamo == '') {
+  if (estadoPrestamo == 'No' || estadoPrestamo == '' || estadoPrestamo == 'Parcial') {
     element.style.display = "block";
     getUser();
   } else {
     element.style.display = "none";
+  }
+  
+  if (opt == '1' ) {
+    $("#cant_devuelta").css('display', 'block');
+    $("#cant_prestada").css('display', 'none');
+  } else {
+    $("#cant_devuelta").css('display', 'none');
+    $("#cant_prestada").css('display', 'block');
   }
 }
 

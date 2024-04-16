@@ -41,7 +41,30 @@ class HS_inventariosController extends SugarController
 
 
         $prestamo = BeanFactory::getBean('HS_inventarios', $data['id']);
-        $prestado = $data['usuario'] == 'null' ? 'No' : 'Si';
+        $prestados =$data['prestado'];
+        $devueltos =$data['devuelto'];
+        if($prestamo >= 1){
+            $total_prestamo = $prestamo->cantidades_prestadas + $prestados;
+            $total_devuelto = $prestamo->cantidades_inventario - $prestados;
+            $prestamo->cantidades_prestadas = $total_prestamo;
+            $prestamo->cantidades_inventario = $total_devuelto;
+            if($total_devuelto == 0){
+                $prestado = 'Si';
+            }else {
+                $prestado = 'Parcial';
+            }
+        }
+        if($devueltos >= 1){
+            $total_prestamo = $prestamo->cantidades_prestadas - $devueltos;
+            $total_devuelto = $prestamo->cantidades_inventario + $devueltos;
+            $prestamo->cantidades_prestadas = $total_prestamo;
+            $prestamo->cantidades_inventario = $total_devuelto;
+            if($total_prestamo == 0){
+                $prestado = 'No';
+            }else {
+                $prestado = 'Parcial';
+            }
+        }
         $usuario = $data['usuario'] == 'null' ? '' : $data['usuario'];
         $prestamo->prestado_name = '';
         if ($usuario != '') {

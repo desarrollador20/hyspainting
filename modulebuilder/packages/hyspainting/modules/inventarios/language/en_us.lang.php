@@ -87,4 +87,6 @@ $mod_strings = array (
   'LBL_PRESTADO' => 'Prestado',
   'LBL_PRESTADO ' => 'Prestado',
   'LBL_PRESTADO_NAME' => 'Prestado a nombre',
+  'LBL_CANTIDADES_INVENTARIO' => 'cantidades inventario',
+  'LBL_CANTIDADES_PRESTADAS' => 'Cantidades Prestadas',
 );

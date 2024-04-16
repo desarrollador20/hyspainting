@@ -82,6 +82,19 @@ array (
           ),
           1 => '',
         ),
+        3 => 
+        array (
+          0 => 
+          array (
+            'name' => 'cantidades_inventario',
+            'label' => 'LBL_CANTIDADES_INVENTARIO',
+          ),
+          1 => 
+          array (
+            'name' => 'cantidades_prestadas',
+            'label' => 'LBL_CANTIDADES_PRESTADAS',
+          ),
+        ),
       ),
     ),
   ),
